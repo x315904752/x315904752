@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Naive Bayes | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Naive Bayes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Naive Bayes" />
+<meta property="og:description" content="Naive Bayes" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-11-28-Naive-Bayes/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-11-28-Naive-Bayes/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-28T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-11-28-Naive-Bayes/","headline":"Naive Bayes","dateModified":"2019-11-28T00:00:00+08:00","datePublished":"2019-11-28T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-11-28-Naive-Bayes/"},"description":"Naive Bayes","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    Naive Bayes
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    28 Nov 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    8666字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    29分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    人工智能
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="naive-bayes">Naive Bayes</h2>
+
+<p>Naive Bayes is a simple technique for constructing classifiers: models that assign class labels to problem instances, represented as vectors of feature values, where the class labels are drawn from some finite set. It is not a single algorithm for training such classifiers, but a family of algorithms based on a common principle: all naive Bayes classifiers assume that <strong>the value of a particular feature is independent of the value of any other feature</strong>, given the class variable.</p>
+
+<p>For example, a fruit may be considered to be an apple if it is red, round, and about 10 cm in diameter. A naive Bayes classifier considers each of these features to contribute independently to the probability that this fruit is an apple, regardless of any possible correlations between the color, roundness, and diameter features.</p>
+
+<p>Naive Bayes methods are a set of supervised learning algorithms based on applying Bayes’ theorem with the “naive” assumption of conditional independence between every pair of features given the value of the class variable. Bayes’ theorem states the following relationship, given class variable $y$ and dependent feature vector $x_1$ through $x_n$:</p>
+
+<p>$P(y\ \mid \ x_1,…,x_n)=\frac{P(y)P(x_1,…,x_n\ \mid\ y)}{P(x_1,…,x_n)}$</p>
+
+<p>Using the naive conditional independence assumption that</p>
+
+<p>$P(x_i\ \mid\ y,x_1,…,x_{i-1},x_{x+1},…,x_n)=P(x_i\ \mid\ y)$,</p>
+
+<p>for all $i$, this relationship is simplified to</p>
+
+<p>$P(y\ \mid x_1,…,x_n)=\frac{P(y)\prod_{i=1}^n P(x_i\ \mid\ y)}{P(x_1,…,x_n)}$</p>
+
+<p>Since $P(x_1,…,x_n)$ is constant given the input, we can use the following classification rule:</p>
+
+<p>$P(y\ \mid x_1,…,x_n)\propto P(y)\prod_{i=1}^n P(x_i\ \mid\ y)$</p>
+
+<p>$\hat{y}=\arg\max\limits_y P(y)\prod^n_{i=1}P(x_i\ \mid\ y),$
+and we can use Maximum A Posteriori (MAP) estimation to estimate $P(y)$ and $P(x_i\ \mid\ y)$, the former is then the relative frequency of class $y$ in the training set.</p>
+
+<p>The different naive Bayes classifiers differ mainly by the assumptions they make regarding the distribution of $P(x_i\ \mid\ y)$.</p>
+
+<ul>
+  <li>When attribute values are discrete, $P(x_i\ \mid\ y)$ can be easily computed according to the training set.</li>
+  <li>When attribute values are continuous, an assumption is made that the values associated with each class are distributed according to Gaussian i.e., Normal Distribution. For example, suppose the training data contains a continuous attribute $x$. We first segment the data by the class, and then compute the mean and variance of $x$ in each class. Let $\mu_k$ be the mean of the values in $x$ associated with class $y_k$, and let $\sigma_k^2$ be the variance of the values in $x$ associated with class $y_k$. Suppose we have collected some observation value $x_i$. Then, the probability distribution of $x_i$ given a class $y_k$, $P(x_i\ \mid y_k)$ can be computed by plugging $x_i$ into the equation for a Normal distribution parameterized by $\mu_k$ and $\sigma_k^2$. That is,$P(x=x_i\ mid\ y=y_k)=\frac{1}{\sqrt{2\pi\sigma_k^2}}e^{-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}}$</li>
+</ul>
+
+<h2 id="datasets">Datasets</h2>
+
+<p>The <a href="http://archive.ics.uci.edu/ml/index.php">UCI dataset</a> is the most widely used dataset for machine learning. If you are interested in other datasets in other areas, you can refer to <a href="https://www.zhihu.com/question/63383992/answer/222718972">https://www.zhihu.com/question/63383992/answer/222718972</a>.</p>
+
+<p>Today’s experiment is conducted with the <strong>Adult Data Set</strong> which can be found in <a href="http://archive.ics.uci.edu/ml/datasets/Adult">http://archive.ics.uci.edu/ml/datasets/Adult</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data Set Characteristics:</th>
+      <th>Multivariate</th>
+      <th>Number of Instances:</th>
+      <th>48842</th>
+      <th>Area:</th>
+      <th>Social</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Attribute Characteristics:</td>
+      <td>Categorical, Integer</td>
+      <td>Number of Attributes:</td>
+      <td>14</td>
+      <td>Date Donated:</td>
+      <td>1996-05-01</td>
+    </tr>
+    <tr>
+      <td>Associated Tasks:</td>
+      <td>Classification</td>
+      <td>Missing Values?</td>
+      <td>Yes</td>
+      <td>Number of Web Hits:</td>
+      <td>1655259</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can also find 3 related files in the current folder, <a href="http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.names">adult.name</a> is the description of <strong>Adult Data Set</strong>, <a href="http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data">adult.data</a> is the training set, and <a href="http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test">adult.test</a> is the testing set. There are 14 attributes in this dataset:</p>
+
+<pre><code class="language-markdown">income: &gt;50K, &lt;=50K.
+
+1. age: continuous.
+2. workclass: Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov,
+   State-gov, Without-pay, Never-worked.
+3. fnlwgt: continuous.
+4. education: Bachelors, Some-college, 11th, HS-grad, Prof-school, Assoc-acdm,
+   Assoc-voc, 9th, 7th-8th, 12th, Masters, 5. 1st-4th, 10th, Doctorate, 5th-6th,
+   Preschool.
+5. education-num: continuous.
+6. marital-status: Married-civ-spouse, Divorced, Never-married, Separated,
+   Widowed, Married-spouse-absent, Married-AF-spouse.
+7. occupation: Tech-support, Craft-repair, Other-service, Sales,
+   Exec-managerial, Prof-specialty, Handlers-cleaners, Machine-op-inspct,
+   Adm-clerical,Farming-fishing,Transport-moving,Priv-house-serv,Protective-serv,
+   Armed-Forces.
+8. relationship: Wife,Own-child,Husband,Not-in-family,Other-relative,Unmarried.
+9. race: White, Asian-Pac-Islander, Amer-Indian-Eskimo, Other, Black.
+10. sex: Female, Male.
+11. capital-gain: continuous.
+12. capital-loss: continuous.
+13. hours-per-week: continuous.
+14. native-country: United-States, Cambodia,England,Puerto-Rico,Canada,Germany,
+    Outlying-US(Guam-USVI-etc),India,Japan,Greece, South,China,Cuba,Iran,Honduras,
+    Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France,
+    Dominican-Republic,Laos,Ecuador,Taiwan, Haiti, Columbia,Hungary,Guatemala,
+    Nicaragua,Scotland,Thailand,Yugoslavia,El-Salvador, Trinadad&amp;Tobago,Peru,Hong,
+    Holand-Netherlands.
+</code></pre>
+
+<p>Prediction task is to determine whether a person makes over 50K a year.</p>
+
+<h2 id="tasks">Tasks</h2>
+
+<p>Given the training dataset <a href="http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data">adult.data</a> and the testing dataset <a href="http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test">adult.test</a>, please accomplish the prediction task to determine whether a person makes over 50K a year in <a href="http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test">adult.test</a> by using Naive Bayes algorithm (C++ or Python), and compute the accuracy.</p>
+
+<p>Note: keep an eye on the discrete and continuous attributes.</p>
+
+<h2 id="codes-and-results">Codes and Results</h2>
+
+<h3 id="codesnbcpp">Codes<code>NB.cpp</code></h3>
+
+<p>按照<code>csv</code>格式读入，然后进行数据清洗。我写的朴素贝叶斯分类器接受一个<code>vector&lt;vector&lt;int&gt;&gt;</code>用于训练，其中每一行是一个训练数据的离散值，第 0 列代表要预测的标签。这里我直接将连续的数据清洗掉了。</p>
+
+<p>代码总量仅<strong>114</strong>行，而核心的分类器代码仅<strong>25</strong>行！</p>
+
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+vector&lt;vector&lt;string&gt;&gt; read_csv(string s)
+{
+	vector&lt;vector&lt;string&gt;&gt; r;
+	for (ifstream fin(s); getline(fin, s);)
+	{
+		r.push_back({});
+		for (istringstream sin(s); getline(sin, s, ',');)
+			r.back().push_back(s);
+	}
+	return r;
+}
+void clean_data_test(
+	vector&lt;vector&lt;string&gt;&gt; _data,
+	vector&lt;vector&lt;string&gt;&gt; _test,
+	vector&lt;vector&lt;int&gt;&gt; &amp;data,
+	vector&lt;vector&lt;int&gt;&gt; &amp;test)
+{
+	int cols = 0;
+	for (auto &amp;it : _data)
+	{
+		cols = max(cols, (int)it.size());
+		for (auto &amp;jt : it)
+		{
+			string s;
+			for (auto c : jt)
+				if (isgraph(c) &amp;&amp; c != '.')
+					s += c;
+			jt = s;
+		}
+	}
+	for (auto &amp;it : _test)
+	{
+		cols = max(cols, (int)it.size());
+		for (auto &amp;jt : it)
+		{
+			string s;
+			for (auto c : jt)
+				if (isgraph(c) &amp;&amp; c != '.')
+					s += c;
+			jt = s;
+		}
+	}
+	vector&lt;int&gt; valid_col{14, 1, 3, 5, 6, 7, 8, 9, 13}; //保留离散列
+	map&lt;int, map&lt;string, int&gt;&gt; mp;
+	for (int i : valid_col)
+	{
+		for (const auto &amp;it : _data)
+			if (it.size() == cols)
+				if (!mp[i].count(it[i]))
+					mp[i].emplace(it[i], mp[i].size());
+		for (const auto &amp;it : _test)
+			if (it.size() == cols)
+				if (!mp[i].count(it[i]))
+					mp[i].emplace(it[i], mp[i].size());
+	}
+	data.clear();
+	for (const auto &amp;it : _data)
+		if (it.size() == cols)
+		{
+			data.push_back({});
+			for (auto id : valid_col)
+				data.back().push_back(mp[id][it[id]]);
+		}
+	test.clear();
+	for (const auto &amp;it : _test)
+		if (it.size() == cols)
+		{
+			test.push_back({});
+			for (auto id : valid_col)
+				test.back().push_back(mp[id][it[id]]);
+		}
+}
+struct NaiveBayes
+{
+	map&lt;int, map&lt;int, map&lt;int, int&gt;&gt;&gt; cnt;
+	NaiveBayes(const vector&lt;vector&lt;int&gt;&gt; &amp;data)
+	{
+		for (const auto &amp;v : data)
+			for (int i = 1; i &lt; v.size(); ++i)
+				++cnt[v[0]][i][v[i]];
+	}
+	int ask(const vector&lt;int&gt; &amp;v)
+	{
+		double ymax = -1e30;
+		int ans = -1;
+		for (const auto &amp;p : cnt)
+		{
+			double y = 0;
+			for (int i = 1; i &lt; v.size(); ++i)
+				if (p.second.at(i).count(v[i]))
+					y += log(p.second.at(i).at(v[i]));
+			if (ymax &lt; y)
+				ymax = y, ans = p.first;
+		}
+		return ans;
+	}
+};
+int main()
+{
+	vector&lt;vector&lt;int&gt;&gt; data, test;
+	clean_data_test(
+		read_csv("adult.data"),
+		read_csv("adult.test"),
+		data,
+		test);
+	NaiveBayes nb(data);
+	double success = 0;
+	for (const auto &amp;it : test)
+		if (nb.ask(it) == it[0])
+			success += 1;
+	cout &lt;&lt; success / test.size();
+}
+</code></pre>
+
+<p>运行下述指令编译。</p>
+
+<pre><code class="language-bash">g++ NB.cpp -o NB -O3 -std=c++11
+</code></pre>
+
+<p>计时运行并得到预测准确率。</p>
+
+<pre><code class="language-bash">$ time ./NB
+0.763774
+real    0m0.203s
+user    0m0.156s
+sys     0m0.047s
+</code></pre>
+
+<h3 id="codesnbpy">Codes<code>NB.py</code></h3>
+
+<p>自己手动实现完 C++版本的分类器之后，再来和 sklearn 库里面实现的朴素贝叶斯分类器进行一个比较~由于是直接调包实现的数据读入、清洗还有分类器算法，这里代码非常的少了…</p>
+
+<pre><code class="language-python">from sklearn.naive_bayes import BernoulliNB
+import pandas
+import numpy
+
+
+def get_data_set(filename):
+    data = pandas.read_csv(filename, names=(
+        "age, workclass, fnlwgt, education, education-num, marital-status, occupation, relationship, race, sex, capital-gain, capital-loss, hours-per-week, native-country, income").split(', '))
+    target = data['income']
+    data = data.drop('income', axis=1)
+    numeric_features = [c for c in data if data[c].dtype.kind in (
+        'i', 'f')]  # 提取数值类型为整数或浮点数的变量
+    numeric_data = data[numeric_features]
+    data = data.drop(numeric_features, 1)
+    # pandas.factorize即可将分类变量转换为数值表示
+    data = data.apply(lambda x: pandas.factorize(x)[0])
+    # apply运算将转换函数应用到每一个变量维度
+    features = pandas.concat([numeric_data, data], axis=1)
+    # 收入水平 "&gt;50K" 记为1，“&lt;=50K” 记为0
+    return features.values.astype(numpy.float32), (target.values == ' &gt;50K').astype(numpy.int32)
+
+
+#X_train, y_train = get_data_set('https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data')
+#X_test, y_test = get_data_set('https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test')
+X_train, y_train = get_data_set('adult.data')
+X_test, y_test = get_data_set('adult.test')
+clf = BernoulliNB()
+clf.fit(X_train, y_train)
+print(clf.score(X_train, y_train, sample_weight=None))
+</code></pre>
+
+<pre><code class="language-bash">$ python NB.py
+0.8060870366389239
+</code></pre>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

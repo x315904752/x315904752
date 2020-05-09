@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>计算机网络 第五章 网络层 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="计算机网络 第五章 网络层" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="概述：" />
+<meta property="og:description" content="概述：" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-04-10-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-04-10-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-04-10T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-04-10-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/","headline":"计算机网络 第五章 网络层","dateModified":"2019-04-10T00:00:00+08:00","datePublished":"2019-04-10T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-04-10-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%BD%91%E7%BB%9C%E5%B1%82/"},"description":"概述：","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    计算机网络 第五章 网络层
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    10 Apr 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    3060字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    11分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    计算机网络
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="概述"><a name="t0"></a>概述：</h2>
+
+<ul>
+  <li>每个数据链路层只涉及一个直连网，而网络层协议涉及整个网络</li>
+  <li>网络层协议负责确定把收到的包从哪条路径转发（forwarding）出去，即路由选择（routing）功能。具体传送有数据链路层和物理层负责。</li>
+</ul>
+
+<h2 id="交换技术"><a name="t1"></a>交换技术：</h2>
+
+<h3 id="电路交换circuit-switching"><a name="t2"></a>电路交换（Circuit Switching）：</h3>
+
+<p><span style="color:#ff0000;">通过在网络中连接多条物理电路形成一条通路后传送数据</span></p>
+
+<p><span style="color:#000000;">每条物理电路可以是一条链路（link）或者一条链路通过FDM或TDM形成的通道（Channel）。</span></p>
+
+<h2 id="包交换paceet-switching"><a name="t3"></a><span style="color:#000000;">包交换（Paceet Switching）：</span></h2>
+
+<p><span style="color:#000000;">采用</span><span style="color:rgb(0,0,0);">统计多路复用</span><span style="color:#000000;">的方法通过网络传送数据包，有</span><strong><span style="color:#ff0000;">虚电路</span></strong><span style="color:#000000;">（Virtual Circuit）和</span><strong><span style="color:#ff0000;">数据报</span></strong><span style="color:#000000;">（Datagram）两种方式。</span></p>
+
+<p><span style="color:#ff0000;">采用虚电路方式需要先建立连接然后才可以传送数据。</span></p>
+
+<p><span style="color:#ff0000;">采用数据报方式不需要建立连接便可以发送数据包。交换机根据数据包的目的地址转发包。</span></p>
+
+<p><span style="color:#000000;">因特网采用数据报交换技术。</span></p>
+
+<p><span style="color:#000000;">虚电路包括：</span></p>
+
+<ol>
+  <li>交换式虚电路<span class="fontstyle0" style="color:rgb(0,0,0);">(Switched Virtual Circuit)</span><span style="color:rgb(0,0,0);"> </span></li>
+  <li>永久虚电路<span class="fontstyle0">(Permanent Virtual Circuit)</span></li>
+</ol>
+
+<ul>
+  <li>交换式虚电路每次传送数据前都要建立连接，传送数据后要释放连接</li>
+  <li>永久虚电路由管理员建好后一直保持着，随时可以传送数据</li>
+</ul>
+
+<p><img src="https://img-blog.csdn.net/20180618213532595" alt="图片描述" /></p>
+
+<p>例子：</p>
+
+<p><span class="fontstyle0">以下哪种交换技术采用包交换技术且在传送数据之前需要建立连接？
+A.电路交换
+B.数据报
+C.永久虚电路
+D.交换式虚电路</span></p>
+
+<p>答案：D</p>
+
+<p>问题：</p>
+
+<p><span class="fontstyle0">下图存在3条虚电路（red,green,blue） ,它们都是从A或者B出发的虚电路，请填写它们的虚电路表(虚电路填写次序: red,green,blue)。</span></p>
+<ul>
+  <li>接口编号用黑色字表示. VCI - Virtual Circuits Identifier&lt;/span&gt;</li>
+</ul>
+
+<p><img src="https://img-blog.csdn.net/20180618213613388" alt="图片描述" /></p>
+
+<p>交换机S1的虚电路表：</p>
+<div class="table-box"><table width="200" border="1" cellspacing="1" cellpadding="1"><tbody><tr><td>输入接口</td><td>输入VCI&nbsp;</td><td>输出接口</td><td>输出VCI</td></tr><tr><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><td>1</td><td>1</td><td>3</td><td>2</td></tr><tr><td>2</td><td>1</td><td>3</td><td>1</td></tr></tbody></table></div>
+
+<p>交换机S2的虚电路表：</p>
+<div class="table-box"><table width="200" border="1" cellspacing="1" cellpadding="1"><tbody><tr><td>输入接口</td><td>输入VCI</td><td>输出接口</td><td>输出VCI</td></tr><tr><td>1</td><td>4</td><td>2</td><td>2</td></tr><tr><td>1</td><td>2</td><td>3</td><td>1</td></tr><tr><td>1</td><td>1</td><td>3</td><td>2</td></tr></tbody></table></div>
+
+<h2 id="ip协议的服务模型"><a name="t4"></a>IP协议的服务模型：</h2>
+
+<ul>
+  <li>IP（Internet Protocol）协议是因特网的网络层协议</li>
+  <li>IP协议是可路由的（routable）–全局地址，按层分配</li>
+  <li>IP协议提供<span style="color:#ff0000;">尽力服务（best effort），即无连接无确认的数据报服务</span></li>
+  <li>IP协议可以运行在任何网络上</li>
+</ul>
+
+<p>问题：</p>
+
+<p><span class="fontstyle0">下面哪些关于IP协议的说法是正确的？
+A.IP协议是因特网的网络层协议.
+B.IP协议可以提供可靠服务.
+C.IP协议可以提供一种数据报服务.
+D.IP协议是可路由的(routable).
+E.IP协议可以用于连接任何物理网络.
+F.IP协议具有拥塞控制机制.</span>
+答案：ACDE</p>
+
+<h2 id="ip数据报格式"><a name="t5"></a>IP数据报格式：<img src="https://img-blog.csdn.net/20180618203105451" alt="图片描述" /></h2>
+
+<h2 id="ip数据报的字段说明"><a name="t6"></a>IP数据报的字段说明：</h2>
+
+<p><img src="https://img-blog.csdn.net/20180618203150627" alt="图片描述" /></p>
+
+<p>问题：</p>
+
+<p><span class="fontstyle0">如果一个IP数据报的协议字段的值为17, 目的主机应该把该数据报交给哪个上层协
+议?
+A.TCP
+B.UDP
+C.ICMP
+D.IGMP</span>
+答案：B</p>
+
+<h2 id="ip数据报的服务类型"><a name="t7"></a>IP数据报的服务类型：</h2>
+
+<p>从整体上说明数据报所需的服务，即区分服务（Differeniated Services）。</p>
+
+<p><img src="https://img-blog.csdn.net/20180618203446408" alt="图片描述" /></p>
+
+<h2 id="ip数据报的生存期"><a name="t8"></a>IP数据报的生存期：</h2>
+
+<ul>
+  <li>生存期(Time-To-Live,<strong>TTL</strong>):用于限制其在因特网上的<strong>停留时间</strong>，实际限制为经过的<strong>路由器数</strong>，即跳数（hop count）</li>
+  <li>TTL的初值需要设置为网络直径的两倍</li>
+  <li>当收到IP数据报时，路由器或主机会把它的TTL减1.如果减到0时还未到达目的地，则该数据报将被丢弃，路由器会发送一个ICMP包告知源主机。</li>
+</ul>
+
+<p>问题：</p>
+
+<p><span class="fontstyle0">下面哪些关于IP数据报的TTL字段的说法是正确的？
+A.每经过一个路由器TTL减1.
+B.TTL的最大值为128.
+C.TTL是数据报经过的跳数.
+D.TTL限制了因特网的直径.
+E.TTL记录数据报在网上存在的时间.
+F.TTL防止数据报长时间滞留在因特网上.</span>
+答案：ADF</p>
+
+<h2 id="ip数据报的分段和重组"><a name="t9"></a>IP数据报的分段和重组：</h2>
+
+<ul>
+  <li>一个物理网络的最大传输单元（MTU）是该网络可以运载的最大有效载荷，即数据帧的数据部分的最大长度</li>
+  <li>如果一个数据报的大小大于要承载它的网络的MTU，路由器需要先对该数据报进行分段(fragment)</li>
+  <li>源主机每次发送IP数据报时都会把标识（Identification）字段加1.分段时用标识的值保持不变，并且用偏移量字段（offset）指出该片段的数据部分相对原来数据报的偏移量（以8字节为单位）</li>
+  <li>当目的主机收到该数据报的所有片段时，它会重组为原来的数据报</li>
+  <li>当第一个片段到达目的主机时，目的主机会启动一个重组定时器（默认超时值为15秒）。如果该定时器到期时没有收集到所有片段，目的主机会放弃本次重组并丢弃该数据报的所有片段</li>
+  <li>DF（Don’t Fragment）为1表示不允许分段，MF（More Fragment）为1标识后面还有片段</li>
+</ul>
+
+<p><span style="color:rgb(51,51,51);font-family:SimSun;font-size:14px;background-color:rgb(255,255,255);">每一种物理网络都会规定链路层数据帧的最大长度，称为链路层MTU(Maximum Transmission Unit).IP协议在传输数据包时，若IP数据报加上数据帧头部后长度大于MTU，则将数据报文分为若干分片进行传输，并在目标系统中进行重组。比如说，在以太网环境中可传输最大IP报文大小（MTU）为1500字节。如果要传输的数据帧大小超过1500字节，即IP数据报长度大于1472(1500-20-8=1472，普通数据报)字节，则需要分片之后进行传输。</span></p>
+
+<p><span style="font-family:SimSun;font-size:14px;background-color:rgb(255,255,255);"><span style="color:rgb(255,0,0);font-family:'-apple-system', 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft Yahei', sans-serif;margin:0px;padding:0px;max-width:100%;text-align:left;">在网络层</span><span style="font-family:'楷体_gb2312';text-align:left;"><span style="color:#ff0000;">，因为IP包的首部要占用20字节，</span><span style="color:#333333;">所以这的MTU为1500－20＝1480；</span><span style="color:#ff0000;">　</span></span>
+<span style="color:#ff0000;"><span style="font-family:'-apple-system', 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft Yahei', sans-serif;margin:0px;padding:0px;max-width:100%;text-align:left;">在传输层</span><span style="font-family:'楷体_gb2312';text-align:left;">，对于UDP包的首部要占用8字节</span></span><span style="color:rgb(51,51,51);font-family:'楷体_gb2312';text-align:left;">，所以这的MTU为1480－8＝1472； 　　</span><span style="color:rgb(51,51,51);font-family:'楷体_gb2312';text-align:left;"> 　</span></span></p>
+
+<p>例1:</p>
+
+<p><img src="https://img-blog.csdn.net/20180618210912593" alt="图片描述" /></p>
+
+<p>数据大小为1400B，MTU最大传输单元为532，ip包的首部占用20字节，532-20=512，因为以8字节为单位,：</p>
+
+<p>第一个片段：OFFSET=0,MF=1;</p>
+
+<p>第二个片段：OFFSET=64,MF=1;</p>
+
+<p>第三个片段：OFFSET=128,MF=0.</p>
+
+<p>例2：</p>
+
+<p><span class="fontstyle0">一个没有选项的IP数据报的总长度为3000字节，标识(iden)是10034，DF=0，OFFSET=0，要转发到MTU为800的一个物理网络上。如果前面的片段尽量大，如何划分片段？填写这些片段的 iden、offset、MF:</span> </p>
+
+<p>解析：（800-20）/8=97，每个片段最大偏移量为97</p>
+
+<p>3000/8=375  375-291&gt;97,所以片段3即为最后一个片段</p>
+<div class="table-box"><table width="200" border="1" cellspacing="1" cellpadding="1"><tbody><tr><td>&nbsp;</td><td>iden</td><td>offset</td><td>MF</td></tr><tr><td>片段0</td><td>10034</td><td>0</td><td>1</td></tr><tr><td>片段1</td><td>10034</td><td>97</td><td>1</td></tr><tr><td>片段2</td><td>10034</td><td>194</td><td>1</td></tr><tr><td>片段3</td><td>10034</td><td>291</td><td>0</td></tr></tbody></table></div>
+
+<p>例3：</p>
+
+<p><span class="fontstyle0">如果上题的第二个片段在后面的一个路由器上要转发到MTU=300的物理网络上，要继续划分片段，填写这些片段的 iden、offset、MF:</span></p>
+
+<p>解析：要转发的第二个片段为97~194的片段，（300-20）/8=35，每个片段偏移量为35，所以：</p>
+<div class="table-box"><table width="200" border="1" cellspacing="1" cellpadding="1"><tbody><tr><td>&nbsp;</td><td>iden</td><td>offset</td><td>MF</td></tr><tr><td>片段1</td><td>10034</td><td>97</td><td>1</td></tr><tr><td>片段2</td><td>10034</td><td>132</td><td>1</td></tr><tr><td>片段3</td><td>10034</td><td>167</td><td>1</td></tr></tbody></table></div>
+
+<p>问题：如果不带选项的IP数据报被分段, 这些片段头部的哪些字段可能与原数据报头部字段的内容不一样?</p>
+
+<p><span class="fontstyle0">A.header checksum
+B.MF
+C.offset
+D.TTL
+E.total length
+F.Identification
+G.destination address
+H.protocol</span>
+答案：ABCE</p>
+
+<h2 id="ip数据报的选项"><a name="t10"></a>IP数据报的选项：</h2>
+
+<p>一般格式为：<img src="https://img-blog.csdn.net/20180618211433271" alt="图片描述" /></p>
+
+<p><img src="https://img-blog.csdn.net/20180618211514495" alt="图片描述" /></p>
+
+<p>记录路由选项：</p>
+
+<p><img src="https://img-blog.csdn.net/20180618211551884" alt="图片描述" /></p>
+
+<p><span class="fontstyle0">指针字段指向下一个</span><span class="fontstyle1">IP</span><span class="fontstyle0">地址的位置： </span><span class="fontstyle1">4(</span><span class="fontstyle0">空</span><span class="fontstyle1">)</span><span class="fontstyle0">， </span><span class="fontstyle1">8</span><span class="fontstyle0">， </span><span class="fontstyle1">… </span><span class="fontstyle0">， </span><span class="fontstyle1">40(</span><span class="fontstyle0">满</span><span class="fontstyle1">)</span><span class="fontstyle0">。
+</span></p>
+
+<p><span class="fontstyle0">该数据报经过的每个路由器记录转出接口的</span><span class="fontstyle1">IP</span><span class="fontstyle0">地址，直到记满</span><span class="fontstyle1">9</span><span class="fontstyle0">个地址。</span></p>
+
+<p>例：<span class="fontstyle0">IP的记录路由选项中如果指针为16，表示记录了多少个IP地址？</span></p>
+
+<p>答案：3个，<span class="fontstyle0">指针为4时0个，为8时1个,为12时2个,为16时3个</span></p>
+
+<p>可以使用 ping -r 命令，记录计数跃点的路由，count有效范围从1到9.</p>
+
+<p><img src="https://img-blog.csdn.net/20180618212413262" alt="图片描述" /></p>
+
+<p>使用ping /?命令可查询相关命令字符含义。
+<img src="https://img-blog.csdn.net/20180618212238432" alt="图片描述" /></p>
+
+<h2 id="ip数据报的选项-1">IP数据报的选项</h2>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

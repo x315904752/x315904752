@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>静态路由实验 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="静态路由实验" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="实验题目" />
+<meta property="og:description" content="实验题目" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-05-05-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-05-05-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-05-05T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-05-05-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/","headline":"静态路由实验","dateModified":"2019-05-05T00:00:00+08:00","datePublished":"2019-05-05T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-05-05-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/"},"description":"实验题目","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    静态路由实验
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    05 May 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    5872字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    20分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    计算机网络
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="实验题目">实验题目</h2>
+
+<p>静态路由实验</p>
+
+<h2 id="实验目的">实验目的</h2>
+
+<p>掌握静态路由的配置和使用方法。</p>
+
+<h2 id="实验命令">实验命令</h2>
+
+<h3 id="查看接口">查看接口</h3>
+
+<pre><code class="language-bash">#show interface
+#show ip interface brief
+#show ip interface f0/1
+</code></pre>
+
+<h3 id="配置-ip-地址和子网掩码">配置 IP 地址和子网掩码</h3>
+
+<pre><code class="language-bash">(config)#interface serial 1/2                       !进行接口模式
+(config-if)#ip address 192.168.1.11  255.255.255.0   !配置接口的IP地址和子网掩码
+</code></pre>
+
+<h3 id="配置串口时钟和带宽">配置串口时钟和带宽</h3>
+
+<pre><code class="language-bash">(config-if)#clock rate 64000               !配置时钟频率64000（在DCE上配置，DTE不用配置）
+(config-if)#bandwidth 512                !配置端口的带宽速率为512KB
+</code></pre>
+
+<h3 id="配置静态路由">配置静态路由</h3>
+
+<pre><code class="language-bash">(config)#ip route network net-mask next-hop  ! next-hop可以为转发的串行接口名或下一跳的IP地址
+</code></pre>
+
+<p>例：</p>
+
+<pre><code class="language-bash">ip route  192.168.3.0  255.255.255.0  192.168.2.2
+ip route  192.168.3.0  255.255.255.0  S2/0
+</code></pre>
+
+<h3 id="显示路由表">显示路由表</h3>
+
+<pre><code class="language-bash">#show ip route
+</code></pre>
+
+<h3 id="配置静态路由参数">配置静态路由参数</h3>
+
+<pre><code class="language-bash">(config)#ip route network net-mask next-hop  [distance]  [weight number]  [disable|enable]
+！distance设置管理距离（默认为1），weight为权重。
+! 将distance设置为一个大的值(例如，125。这大于OSPF的110)可以作为备份路由。
+</code></pre>
+
+<h3 id="配置默认路由">配置默认路由</h3>
+
+<pre><code class="language-bash">(config)# ip route 0.0.0.0  0.0.0.0  next-hop
+</code></pre>
+
+<p>例：</p>
+
+<pre><code class="language-bash">ip route  0.0.0.0  0.0.0.0  192.168.2.1
+</code></pre>
+
+<h3 id="配置交换机端口镜像">配置交换机端口镜像</h3>
+
+<pre><code class="language-bash">Switch(config)#monitor  session 1  source  interface  f0/15    ! 监控f0/15
+Switch(config)#monitor  session 1  destination  interface  f0/5  ! 用f0/5监控
+Switch(config)#show  monitor  session  1                	! 显示监控情况
+Switch(config)#no  monitor  session  1                  	! 取消监控
+</code></pre>
+
+<h2 id="实验说明">实验说明</h2>
+
+<ul>
+  <li>配置前先重启路由器<code>#reload</code></li>
+  <li>参与 ping 的主机要删除校园网网关。</li>
+  <li>注意关闭 Windows 的防火墙</li>
+</ul>
+
+<h2 id="实验任务">实验任务</h2>
+
+<p>由于实际上所用的接口名不一定是上面标明的，先用#show interface 查看接口名，并根据实际接线修改上图的接口和 IP 地址标记。
+配置好 PC 机实验网网卡的 IP 地址、子网掩码和默认网关，按下面步骤依次进行配置和检测：</p>
+
+<h3 id="配置-router1-和-router2-的-ip-地址和子网掩码-见上面实验命令">配置 Router1 和 Router2 的 IP 地址和子网掩码 (见上面“实验命令”)。</h3>
+
+<h4 id="显示-router1-的路由表并截屏">显示 Router1 的路由表并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-1.jpg" alt="图片描述" /></p>
+
+<h4 id="显示-router2-的路由表并截屏">显示 Router2 的路由表并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-2.jpg" alt="图片描述" /></p>
+
+<h4 id="pc1-依次-ping-到-pc2-路经上的所有-ip-地址并截屏">PC1 依次 ping 到 PC2 路经上的所有 IP 地址，并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-3.jpg" alt="图片描述" /></p>
+
+<h4 id="分析-router1-路由表和-router2-路由表的路由组成">分析 Router1 路由表和 Router2 路由表的路由组成</h4>
+
+<p>第一行和第三行是此次实验新设的 IP 地址以及对应的连接端口。而第二和第四行则说明本路由器拥有的 IP 地址和对应的端口。</p>
+
+<h3 id="在-router1-和-router2-上配置静态路由见上面命令或课件要求-pc1-可以-ping-通-pc2">在 Router1 和 Router2 上配置静态路由(见上面命令或课件)，要求 PC1 可以 ping 通 PC2。</h3>
+
+<h4 id="显示-router1-的路由表并截屏-1">显示 Router1 的路由表并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-4.jpg" alt="图片描述" /></p>
+
+<h4 id="显示-router2-的路由表并截屏-1">显示 Router2 的路由表并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-5.jpg" alt="图片描述" /></p>
+
+<h4 id="pc1-ping-pc2-并截屏">PC1 ping PC2 并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-6.jpg" alt="图片描述" /></p>
+
+<h4 id="分析-router1-路由表和-router2-路由表的路由组成-1">分析 Router1 路由表和 Router2 路由表的路由组成</h4>
+
+<p>此时相比于（1），每一个路由器多了一行“S 192.168.X.X”，这是新配置的静态路由。路由器 1 的静态路由配置为网络号：192.168.3.0，端口为 192.168.2.2.路由器 2 的静态路由配置为网络号：192.168.1.0，端口为 192.168.2.1.</p>
+
+<h3 id="如果只在-router1-上配置静态路由删除-router2-上配置的静态路由-pc1-和-pc2-都-ping-到对方路径上的-ip-地址最远可以-ping-通哪个接口为什么">如果只在 Router1 上配置静态路由（删除 Router2 上配置的静态路由）, PC1 和 PC2 都 ping 到对方路径上的 IP 地址，最远可以 ping 通哪个接口？为什么？</h3>
+
+<p>删除配置命令的方法是在原配置命令前加 no（和一个空格）。用上下键可以显示出历史命令。</p>
+
+<h4 id="pc1-依次-ping-到-pc2-路经上的所有-ip-地址并截屏-1">PC1 依次 ping 到 PC2 路经上的所有 IP 地址，并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-7.jpg" alt="图片描述" /></p>
+
+<h4 id="pc2-依次-ping-到-pc1-路经上的所有-ip-地址并截屏">PC2 依次 ping 到 PC1 路经上的所有 IP 地址，并截屏</h4>
+
+<p><img src="/puclic/image/2019-05-05-8.jpg" alt="图片描述" /></p>
+
+<h4 id="分析结果">分析结果</h4>
+
+<p>此时的 PC2 由于路由器 1 的静态路由没有删除，所以可以有路由表找到前往 192.168.2.1 的路径，但由于路由器 2 的静态路由删除，所以并不能找到对应的路径前往 PC1.</p>
+
+<p>PC1 可以到达路由器 1 的两端。由于路由器 2 的原因，不能 ping 通路由器 2 的两个端口以及 PC2.</p>
+
+<h3 id="如果在路由器-router1-和-router2-只配置默认路由指向对方要先删除原静态路由pc1-是否可以-ping-通-pc2为什么写下分析">如果在路由器 Router1 和 Router2 只配置默认路由指向对方（要先删除原静态路由），PC1 是否可以 ping 通 PC2？为什么？写下分析。</h3>
+
+<h4 id="pc1-ping-pc2并截屏">PC1 ping PC2，并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-9.jpg" alt="图片描述" /></p>
+
+<h4 id="显示-router1-的路由表并截屏-2">显示 Router1 的路由表并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-10.jpg" alt="图片描述" /></p>
+
+<h4 id="分析结果-1">分析结果</h4>
+
+<p>由于在 router1 的路由表中没有目的地址与要前往的目的地址符合，所以选择默认路由的路径，发往 router2，而 router2 的路由表里有对应的目的地址，从 192.168.3.1 发到 PC2.所以可以 ping 通。</p>
+
+<h3 id="在路由器之间加入一台交换机-switch1不用配置并连上一台主机pc3见下图在-switch1-上配置端口镜像见上面实验命令捕捉经过-f015-的-ip-分组并送往-f05-pc3-可以用-wireshark-捕捉-icmp-包filteripproto1">在路由器之间加入一台交换机 Switch1（不用配置），并连上一台主机（PC3），见下图。在 Switch1 上配置端口镜像(见上面“实验命令”)，捕捉经过 F0/15 的 IP 分组，并送往 F0/5， PC3 可以用 WireShark 捕捉 ICMP 包（filter：ip.proto==1）。</h3>
+
+<h4 id="用-pc1-ping-一个外部网络的无主-ip-地址会出现什么现象截屏并分析结果">用 PC1 ping 一个外部网络的无主 IP 地址会出现什么现象？截屏并分析结果</h4>
+
+<p><img src="/assets/image/2019-05-05-11.jpg" alt="图片描述" /></p>
+
+<h3 id="见下图拆除-router1-和-router2-之间的以太网线并用串行接口做实验串行接口已经接好了但不一定是下图标志的名称要用show-interface或show-ip-interface-brief-或show-ip-interface-s01查看哪个串行接口已经接好line-is-upprotocol-is-up配置-router1-和-router2-串行口的时钟ip-地址和子网掩码删除默认路由配置静态路由见上面命令或课件令-pc1-可以-ping-通-pc2">见下图，拆除 Router1 和 Router2 之间的以太网线，并用串行接口做实验，串行接口已经接好了，但不一定是下图标志的名称，要用#show interface（或#show ip interface brief 或#show ip interface s0/1）查看哪个串行接口已经接好(line is up，protocol is up)。配置 Router1 和 Router2 串行口的时钟、IP 地址和子网掩码，删除默认路由，配置静态路由(见上面命令或课件)，令 PC1 可以 ping 通 PC2。</h3>
+
+<h4 id="用-pc1-ping-pc2-并截屏">用 PC1 ping PC2 并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-12.jpg" alt="图片描述" /></p>
+
+<p>此时由于 router1 的路由表里没有对应的目的地址，所以发往默认路由，即从 12.0168.2.1 发出，经过交换机，PC3 收到。而 router2 收到后，也是没有符合的目的地址，所以发往默认路由，经过交换机，到达 router1.重复上述操作，直至该帧的 TTL 减为 0,。在此过程中，PC3 一直收到。所以出现了上面的结果。</p>
+
+<h4 id="显示-router1-的路由表并截屏-3">显示 Router1 的路由表并截屏</h4>
+
+<p><img src="/assets/image/2019-05-05-13.jpg" alt="图片描述" /></p>
+
+<h4 id="显示-router2-的路由表并截屏-2">显示 Router2 的路由表并截屏</h4>
+
+<p><img src="/publuc/image/2019-05-05-14.jpg" alt="图片描述" /></p>
+
+<h4 id="用show-running-config-显示-router1-的当前配置并粘贴在下面">用#show running-config 显示 Router1 的当前配置，并粘贴在下面</h4>
+
+<pre><code class="language-bash">Building configuration...
+Current configuration : 1913 bytes
+
+!
+version RGOS 10.4(3b23) Release(176514)(Mon Jul 28 18:19:31 CST 2014 -ngcf62)
+hostname 18-RSR20-1
+webmaster level 0 username admin password 7 06073a0e261b
+!
+!
+!
+!
+!
+!
+diffserv domain default
+!
+!
+!
+!
+cwmp
+!
+!
+!
+!
+!
+!
+vlan 1
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+control-plane protocol
+ no acpp
+!
+control-plane manage
+ no port-filter
+ no arp-car
+ no acpp
+!
+control-plane data
+ no glean-car
+ no acpp
+!
+!
+!
+!
+enable service web-server http
+enable service web-server https
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Serial 2/0
+ encapsulation HDLC
+ ip address 192.168.2.1 255.255.255.0
+ bandwidth 512
+!
+interface FastEthernet 1/0
+!
+interface FastEthernet 1/1
+!
+interface FastEthernet 1/2
+!
+interface FastEthernet 1/3
+!
+interface FastEthernet 1/4
+!
+interface FastEthernet 1/5
+!
+interface FastEthernet 1/6
+!
+interface FastEthernet 1/7
+!
+interface FastEthernet 1/8
+!
+interface FastEthernet 1/9
+!
+interface FastEthernet 1/10
+!
+interface FastEthernet 1/11
+!
+interface FastEthernet 1/12
+!
+interface FastEthernet 1/13
+!
+interface FastEthernet 1/14
+!
+interface FastEthernet 1/15
+!
+interface FastEthernet 1/16
+!
+interface FastEthernet 1/17
+!
+interface FastEthernet 1/18
+!
+interface FastEthernet 1/19
+!
+interface FastEthernet 1/20
+!
+interface FastEthernet 1/21
+!
+interface FastEthernet 1/22
+!
+interface FastEthernet 1/23
+!
+interface GigabitEthernet 0/0
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet 0/1
+ duplex auto
+ speed auto
+!
+interface VLAN 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip route 192.168.3.0 255.255.255.0 192.168.2.2
+!
+!
+!
+!
+!
+ref parameter 75 140
+line con 0
+line aux 0
+line tty 1
+ modem InOut
+line vty 0 4
+ login
+ password b402
+!
+!
+end
+</code></pre>
+
+<h4 id="用show-running-config-显示-router2-的当前配置并粘贴在下面">用#show running-config 显示 Router2 的当前配置，并粘贴在下面</h4>
+
+<pre><code class="language-bash">18-RSR20-2(config)#show running-config
+
+Building configuration...
+Current configuration : 1971 bytes
+
+!
+version RGOS 10.4(3b23) Release(176514)(Mon Jul 28 18:19:31 CST 2014 -ngcf62)
+hostname 18-RSR20-2
+webmaster level 0 username admin password 7 073f07221c1c
+!
+!
+!
+!
+!
+!
+diffserv domain default
+!
+!
+!
+!
+cwmp
+!
+!
+!
+!
+!
+!
+vlan 1
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+control-plane protocol
+ no acpp
+!
+control-plane manage
+ no port-filter
+ no arp-car
+ no acpp
+!
+control-plane data
+ no glean-car
+ no acpp
+!
+!
+!
+!
+enable service web-server http
+enable service web-server https
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Serial 2/0
+ encapsulation HDLC
+ ip address 192.168.2.2 255.255.255.0
+ clock rate 64000
+ bandwidth 512
+!
+interface Serial 3/0
+ encapsulation HDLC
+ clock rate 64000
+!
+interface FastEthernet 1/0
+!
+interface FastEthernet 1/1
+!
+interface FastEthernet 1/2
+!
+interface FastEthernet 1/3
+!
+interface FastEthernet 1/4
+!
+interface FastEthernet 1/5
+!
+interface FastEthernet 1/6
+!
+interface FastEthernet 1/7
+!
+interface FastEthernet 1/8
+!
+interface FastEthernet 1/9
+!
+interface FastEthernet 1/10
+!
+interface FastEthernet 1/11
+!
+interface FastEthernet 1/12
+!
+interface FastEthernet 1/13
+!
+interface FastEthernet 1/14
+!
+interface FastEthernet 1/15
+!
+interface FastEthernet 1/16
+!
+interface FastEthernet 1/17
+!
+interface FastEthernet 1/18
+!
+interface FastEthernet 1/19
+!
+interface FastEthernet 1/20
+!
+interface FastEthernet 1/21
+!
+interface FastEthernet 1/22
+!
+interface FastEthernet 1/23
+!
+interface GigabitEthernet 0/0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet 0/1
+ ip address 192.168.3.2 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface VLAN 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip route 192.168.1.0 255.255.255.0 192.168.2.1
+!
+!
+!
+!
+!
+ref parameter 75 140
+line con 0
+line aux 0
+line vty 0 4
+ login
+ password b402
+!
+!
+end
+</code></pre>
+
+<h2 id="实验体会">实验体会</h2>
+
+<p>本次实验中，我们遇到了一些问题，有时配置是（我们认为）正确的但是总是 ping 不通，然后过了一段时间后结果又正常了，有些让人抓不到头脑。所幸最终是把实验做完了。在本次实验中我了解了静态路由的一些配置，对于一些情况也可以判断出问题所在。</p>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

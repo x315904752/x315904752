@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>图像分割 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="图像分割" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="定义" />
+<meta property="og:description" content="定义" />
+<link rel="canonical" href="http://localhost:4000/_posts/2020-01-02-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2020-01-02-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-02T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2020-01-02-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/","headline":"图像分割","dateModified":"2020-01-02T00:00:00+08:00","datePublished":"2020-01-02T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2020-01-02-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/"},"description":"定义","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    图像分割
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    02 Jan 2020
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    1874字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    7分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    数字图像处理
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="定义">定义</h2>
+
+<p>分割可以看作将全图$R$划分为子区域$R_1,R_2,\ldots,R_n$的过程（其中，$P(R)$为定义在集合$R$的点上的逻辑谓词）：</p>
+
+<ol>
+  <li>$\bigcup_{i=1}^nR_i=R$</li>
+  <li>$R_i$是连通块</li>
+  <li>$\forall i \ne j,R_i\cap R_j=\emptyset$</li>
+  <li>$\forall i \ne j,P(R_i\cup R_j)$为假</li>
+  <li>$P(R_i)$为真</li>
+</ol>
+
+<p>图像分割一般基于亮度值的两种基本特性（<strong>不连续性</strong>和<strong>相似性</strong>）。</p>
+
+<h2 id="间断检测">间断检测</h2>
+
+<p>寻找间断最一般方法是对整幅图像使用模板（滤波器）进行检测。</p>
+
+<h3 id="点检测">点检测</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>1</th>
+      <th>1</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>-8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>如果作用算子后的图像$\vert R(x,y)\vert &gt;T$，其中阈值$T&gt;0$，则模板中心位置的点为所求的点。</p>
+
+<h3 id="线检测">线检测</h3>
+
+<p>线检测通常采用如下4种摸板：</p>
+
+<ul>
+  <li>水平：
+|-1|-1|-1|
+|-|-|-|
+|2|2|2|
+|-1|-1|-1|</li>
+  <li>$+45\degree$：
+|2|-1|-1|
+|-|-|-|
+|-1|2|-1|
+|-1|-1|2|</li>
+  <li>垂直：
+|-1|2|-1|
+|-|-|-|
+|-1|2|-1|
+|-1|2|-1|</li>
+  <li>$-45\degree$：
+|-1|-1|2|
+|-|-|-|
+|-1|2|-1|
+|2|-1|-1|</li>
+</ul>
+
+<p>如果上述4种模板产生的响应分别为：$R_1,R_2,R_3,R_4$，并且$\exist i\forall j\ne i \vert R_i\vert &gt; \vert R_j \vert$，则认为此点与模板$i$方向的线有关。</p>
+
+<h2 id="边缘检测">边缘检测</h2>
+
+<p>傅里叶变换无法刻画边缘，只知道高频成分，不知道高频在哪里。一种方法是局部傅里叶变换，衍生出小波变换（就是要构造一种高通滤波器）：有震荡信号的位置（小范围震荡且积分为0），可以刻画边缘。</p>
+
+<p><img src="data:image/webp;base64,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" alt="三种边缘模型" /></p>
+
+<p>主要使用一阶导数和二阶导数检测图像中的边缘。如下图所示，二阶导数会增大噪声，因此做边缘检测之前应该先抑制噪声（平滑）。</p>
+
+<p>通常通过阈值确定边缘位置。</p>
+
+<ul>
+  <li>常用方法：
+    <ul>
+      <li>Canny边缘检测器：低错误率（边缘一个不落，一个不多）；边缘点应该被很好定位（标记的边缘点与真实边缘中心之间的距离最小）；单一边缘点响应（对于真实的边缘点，检测器仅返回一个点，即真实边缘周围的局部最大数应该最小）</li>
+      <li>算法步骤：用一个高斯滤波器平滑输入图像；计算梯度幅值图像和角度图像（Canny为二阶梯度算子）$M(x,y)=\sqrt{g_x^2+g_y^2},\quad\alpha(x,y)=\arctan\lrs{\frac{g_y}{g_x}}$；梯度幅值图像应用非最大抑制；用双阈值处理和连接分析来检测并连接边缘
+        <ul>
+          <li>双阈值法：高阈值$T_H$和低阈值$T_L$，比率为$2:1$或$3:1$
+$g_{NN}(x,y) &amp;= g_N(x,y)\geq T_H &amp; \text{强边缘}<br />
+g_{NL}(x,y) &amp;= g_N(x,y)\geq T_L &amp; \text{弱边缘（可能是边缘也可能不是）+强边缘}<br />
+g_{NL}(x,y) &amp;= g_{NL}(x,y)-g_{NH}(x,y) &amp; \text{弱边缘}
+\end{aligned}$用弱边缘补齐强边缘来获得完整边缘
+            <ul>
+              <li>在$g_{NN}(x,y)$中定位下一个未被访问的边缘像素$p$</li>
+              <li>在$g_{NL}(x,y)$中用8连通方法连接到$p$</li>
+              <li>如果$g_{NN}(x,y)$中所有非零标记都已经访问过，则跳到(d)，否则(a)</li>
+              <li>将$g_{NL}(x,y)$中未被标记为有效边缘的像素的所有像素置零。</li>
+              <li>将$g_{NL}(x,y)$中非零像素附加到$g_{NN}(x,y)$</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>边缘连接：边界是封闭的边缘。$\text{边界检测}=\text{边缘检测}+\text{边缘连接}$</li>
+      <li>区域处理：用多边形拟合算法</li>
+      <li>边界检测
+        <ul>
+          <li>用Hough（霍夫）变换进行边界检测：通过边界点找已知形状的目标。</li>
+          <li>直线检测问题：已知一组边缘点，找一条直线，使它通过最多边缘点。直线方程用极坐标表示$\rho=x\cos\theta+y\sin\theta$通过辅助角变换可得$\rho=A_0\sin(\theta+\phi_0)$故可映射到$\rho O\theta$空间，其中每一个点是$xOy$平面上的通过同一个点的一条线。如果有一组位于由参数$\rho_0$和$\theta_0$决定的直线上的边缘点，则每个边缘点对应了$\rho,\theta$空间的一条正弦曲线。所有这些曲线必然会交于点$(\rho_0,\theta_0)$，因为这是它们共享的一条直线的参数。故对于边缘点的直线拟合问题，即找一个使边缘点确定的正弦曲线相交最多的点$(\rho,\theta)$。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

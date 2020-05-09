@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>人工智能（五） | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="人工智能（五）" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Constraint satisfaction problem (CSP，约束满足问题)" />
+<meta property="og:description" content="Constraint satisfaction problem (CSP，约束满足问题)" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-09-12-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-%E4%BA%94/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-09-12-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-%E4%BA%94/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-09-12T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-09-12-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-%E4%BA%94/","headline":"人工智能（五）","dateModified":"2019-09-12T00:00:00+08:00","datePublished":"2019-09-12T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-09-12-%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-%E4%BA%94/"},"description":"Constraint satisfaction problem (CSP，约束满足问题)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    人工智能（五）
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    12 Sep 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    5205字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    18分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    人工智能
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="constraint-satisfaction-problem-csp约束满足问题">Constraint satisfaction problem (CSP，约束满足问题)</h2>
+
+<ul>
+  <li>The search algorithms we discussed so far had no knowledgeof the states representation (black box).</li>
+  <li>Instead we can have a general state representation that workswell for many different problems.</li>
+  <li>We can build then specialized search algorithms that operateefficiently on this general state representation.</li>
+  <li>
+    <p>We call the class of problems that can be represented withthis specialized representation CSPs – Constraint Satisfaction Problems.</p>
+  </li>
+  <li>到目前为止，我们讨论的搜索算法没有状态表示(黑盒)的知识。</li>
+  <li>相反，我们可以有一个适用于许多不同问题的通用状态表示。</li>
+  <li>我们可以构建专门的搜索算法，有效地在这个通用状态表示上操作。</li>
+  <li>我们把可以用这种专门的表示CSPs-Constraint Satisfaction Problems表示的问题类称为CSPs-Constraint Satisfaction Problems。</li>
+</ul>
+
+<h2 id="csps--state-representation">CSPs:  State Representation</h2>
+
+<p>The idea:  represent states as a vectors of feature values</p>
+
+<ul>
+  <li>A set ofkfeatures (or variables)</li>
+  <li>Each variable has a domain of different values,e.g.
+    <ul>
+      <li>height ={short, average, tall},</li>
+      <li>weight ={light, average, heavy}</li>
+    </ul>
+  </li>
+  <li>A state is specified by an assignment of a value for eachvariable.</li>
+  <li>A partial state is specified by an assignment of a value tosome of the variables.</li>
+  <li>A goal state specified as conditions on the vector of featurevalues.</li>
+</ul>
+
+<h2 id="formalization-of-a-csp">Formalization of a CSP</h2>
+
+<ul>
+  <li>A CSP consists of
+    <ul>
+      <li>A set of variablesV1, . . . , Vn</li>
+      <li>For each variable a (finite) domain of possible values Dom[Vi].</li>
+      <li>A set of constraintsC1, . . . , Cm.</li>
+    </ul>
+  </li>
+  <li>A solution to a CSP is an assignment of a value to all of thevariables such that every constraint is satisfied.</li>
+  <li>A CSP is unsatisfiable if no solution exists.</li>
+  <li>Each variable can be assigned any value from its domain
+    <ul>
+      <li>Vi=dwhered∈Dom[Vi]</li>
+    </ul>
+  </li>
+  <li>Each constraint C
+    <ul>
+      <li>has a set of variables it is over, called its scope,e.g.,C(V1, V2, V4)</li>
+      <li>Acts as a boolean function that maps assignments to thesevariables to true/false,e.g.,
+        <ul>
+          <li>C(V1=a, V2=b, V4=c) =True</li>
+          <li>C(V1=b, V2=c, V4=c) =False</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="constraints">Constraints</h2>
+
+<ul>
+  <li>Unary Constraints (over one variable)
+    <ul>
+      <li>e.g.,C(X) :X= 2;C(Y) :Y &gt;5</li>
+    </ul>
+  </li>
+  <li>Binary Constraints (over two variables)
+    <ul>
+      <li>e.g.,C(X, Y) :X+Y &lt;6</li>
+    </ul>
+  </li>
+  <li>Higher-order (n-ary) constraints:  over 3 or more variables.</li>
+</ul>
+
+<h2 id="solving-csps">Solving CSPs</h2>
+
+<ul>
+  <li>We do not care about the sequence of moves needed to get toa goal state.</li>
+  <li>We only care about finding a setting of the variables thatsatisfies the goal.</li>
+  <li>Thus CSPs can be solved by a specialized version of depthfirst search.</li>
+  <li>We can build up to a solution by searching through the spaceof partial assignments.</li>
+  <li>In principle, the order in which we assign the variables doesnot matter – eventually they all have to be assigned.</li>
+  <li>If we falsify a constraint during the process of building up asolution, we can immediately reject the current partialassignment.</li>
+</ul>
+
+<h2 id="csp-as-a-search-problem">CSP as a Search Problem</h2>
+
+<ul>
+  <li>Initial state:  empty assignment</li>
+  <li>Successor function:  a value is assigned to any unassignedvariable, which does not cause any constraint to return false.</li>
+  <li>Goal test:  the assignment is complete</li>
+</ul>
+
+<h2 id="a-generic-backtracking-algorithm">A generic backtracking algorithm</h2>
+
+<ul>
+  <li>We pick a variable*,</li>
+  <li>pick a value for it*,</li>
+  <li>test the constraints that we can,</li>
+  <li>if a constraint is unsatisfied we backtrack,</li>
+  <li>otherwise we set another variable.</li>
+  <li>When all the variables are set, we’re done.</li>
+</ul>
+
+<h2 id="backtracking-search">Backtracking Search</h2>
+
+<ul>
+  <li>The algorithm searches a tree of partial assignments.</li>
+  <li>Heuristics are used to determine
+    <ul>
+      <li>the order in which variables are assigned: PickUnassignedVariable()</li>
+      <li>the order of values tried for each variable.</li>
+    </ul>
+  </li>
+  <li>The choice of the next variable can vary from branch to branch, e.g.,
+    <ul>
+      <li>under the assignment V1=a we might choose to assign V4 next, while under V1=b we might choose to assign V5 next.</li>
+    </ul>
+  </li>
+  <li>This “dynamically” chosen variable ordering has a tremendous impact on performance.</li>
+</ul>
+
+<h2 id="forward-checking">Forward Checking</h2>
+
+<ul>
+  <li>Forward checkingis an extension of backtracking search that employs a “modest” amount of propagation (look ahead).</li>
+  <li>When a variable is instantiated we check all constraints that have only one uninstantiatedvariable remaining.</li>
+  <li>For that uninstantiatedvariable, we check all of its values, pruning those values that violate the constraint.</li>
+</ul>
+
+<h2 id="empirically">Empirically</h2>
+
+<ul>
+  <li>FC often is about 100 times faster than BT</li>
+  <li>FC with MRV (minimal remaining values) often 10000 timesfaster.</li>
+  <li>But on some problems the speed up can be much greater
+    <ul>
+      <li>Converts problems that are not solvable to problems that aresolvable</li>
+    </ul>
+  </li>
+  <li>Still FC is not that powerful.</li>
+  <li>Other more powerful forms of constraint propagation are usedin practice</li>
+</ul>
+
+<h2 id="generalized-arc-consistency-gac">Generalized Arc Consistency (GAC)</h2>
+
+<ul>
+  <li>C(X,Y) is consistent iff for every value of X there is somevalue of Y that satisfies C</li>
+  <li>C(V1, V2, V3, . . . , Vn)is GAC wrtViiff for every value ofVi,there are values ofV1, . . . , Vi−1, Vi+1, . . . , Vn that satisfyC</li>
+  <li>A constraint is GAC iff it is GAC wrt every variable in its scope</li>
+  <li>A CSP is GAC iff all of its constraints are GAC</li>
+  <li>Say we find a valuedof variableVi that is not consistent wrta constraint</li>
+  <li>i.e., there is no assignments to the other variables that satisfythe constraint whenVi=d</li>
+  <li>dis said to be arc inconsistent</li>
+  <li>We can remove d from the domain ofVias this value cannotlead to a solution</li>
+  <li>Much like Forward Checking, but more powerful
+    <ul>
+      <li>If d is removed fromCurDom[Vi], it must be the case thatdis arc inconsistent</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="gac-algorithm">GAC algorithm</h2>
+
+<ul>
+  <li>We make all constraints GAC at every node of the searchspace.</li>
+  <li>Like forward checking, GAC could also be performed beforewe even start to search,i.e., before we assign any variables.</li>
+  <li>This is accomplished by removing from the domains of thevariables all arc inconsistent values.</li>
+</ul>
+
+<h2 id="enforce-gac">Enforce GAC</h2>
+
+<ul>
+  <li>A support for V=d in constraint C is an assignment A to all ofthe other variables in scope(C) s.t.  A U{V=d}satisfies C.</li>
+  <li>Smarter implementations keep track of “supports” to avoidhaving to search through all possible assignments to the othervariables for a satisfying assignment.</li>
+  <li>Rather than search for a satisfying assignment to C containingV=d, we check to see if the current support is still valid:  i.e.,all values it assigns still lie in the variable’s current domains</li>
+  <li>Also we take advantage that a support for V=d, e.g.{V=d,X=a, Y=b, Z=c}is also a support for X=a, Y=b, and Z=c</li>
+  <li>However, finding a support for V=d in constraint C still in theworst case requiresO(2k)work, where k is the arity of C.</li>
+  <li>Another key development in practice is that for someconstraints this computation can be done in polynomial time.</li>
+  <li>e.g., all-diff(V1, . . . , Vn) we can check ifVi=dhas a supportin the current domains of the other variables in polynomialtime using ideas from graph theory.</li>
+</ul>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

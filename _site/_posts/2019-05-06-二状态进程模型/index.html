@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>二状态进程模型 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="二状态进程模型" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="实验题目" />
+<meta property="og:description" content="实验题目" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-05-06-%E4%BA%8C%E7%8A%B6%E6%80%81%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-05-06-%E4%BA%8C%E7%8A%B6%E6%80%81%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-05-06T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-05-06-%E4%BA%8C%E7%8A%B6%E6%80%81%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B/","headline":"二状态进程模型","dateModified":"2019-05-06T00:00:00+08:00","datePublished":"2019-05-06T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-05-06-%E4%BA%8C%E7%8A%B6%E6%80%81%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B/"},"description":"实验题目","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    二状态进程模型
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    06 May 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    10878字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    37分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    操作系统
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="实验题目">实验题目</h2>
+
+<p>二状态进程模型</p>
+
+<h2 id="实验目的">实验目的</h2>
+
+<ol>
+  <li>学习进程模型知识，掌握进程模型的实现方法。</li>
+  <li>利用时钟中断，设计时钟中断处理进行进程交替执行</li>
+  <li>扩展 MyOS，实现多进程模型的原型操作系统。</li>
+</ol>
+
+<h2 id="实验内容">实验内容</h2>
+
+<p>在实验五的基础上，进化你的原型操作系统，原型保留原有特征的基础上，设计满足下列要求的新原型操作系统：</p>
+
+<ol>
+  <li>内核实现简单进程模型，进程具有就绪、运行两种基本状态。建议在 c 程序中定义进程表，进程数量最多 4 个。</li>
+  <li>内核可以一次性加载最多 4 个用户程序。用户进程采用时间片轮转调度进程。由你设计有个性的用户程序，它们的输出各占 1/4 屏幕区域，信息输出有动感，以便观察程序是否在执行。</li>
+  <li>在原型中保证原有的系统调用服务可用。再编写 4 个用户程序，展示系统调用服务还能工作。</li>
+</ol>
+
+<h2 id="实验方案">实验方案</h2>
+
+<h3 id="实验环境">实验环境</h3>
+
+<h4 id="软件">软件</h4>
+
+<ul>
+  <li>Windows 10, 64-bit (Build 17763) 10.0.17763</li>
+  <li>Windows Subsystem for Linux [Ubuntu 18.04.2 LTS]：WSL 是以软件的形式运行在 Windows 下的 Linux 子系统，是近些年微软推出来的新工具，可以在 Windows 系统上原生运行 Linux。</li>
+  <li>gcc version 7.3.0 (Ubuntu 7.3.0-27ubuntu1~18.04)：C 语言程序编译器，Ubuntu 自带。</li>
+  <li>NASM version 2.13.02：汇编程序编译器，通过<code>sudo apt install nasm</code>安装在 WSL 上。</li>
+  <li>Oracle VM VirtualBox 6.0.6 r130049 (Qt5.6.2)：轻量开源的虚拟机软件。</li>
+  <li>VSCode - Insiders v1.33.0：好用的文本编辑器，有丰富的插件。</li>
+  <li>hexdump for VSCode 1.7.2: VSCode 中一个好用的十六进制显示插件。</li>
+  <li>GNU Make 4.1：安装在 Ubuntu 下，一键编译并连接代码，生成最终的文件。</li>
+</ul>
+
+<p>大部分开发环境安装在 WSL 上，较之于双系统、虚拟机等其他开发方案，更加方便，也方便直接使用 Linux 下的一些指令。</p>
+
+<h4 id="硬件">硬件</h4>
+
+<h5 id="开发环境配置">开发环境配置</h5>
+
+<p>所用机器型号为 VAIO Z Flip 2016</p>
+
+<ul>
+  <li>Intel(R) Core(TM) i7-6567U CPU @3.30GHZ 3.31GHz</li>
+  <li>8.00GB RAM</li>
+</ul>
+
+<h5 id="虚拟机配置">虚拟机配置</h5>
+
+<ul>
+  <li>处理器内核总数：1</li>
+  <li>RAM：4MB</li>
+</ul>
+
+<h3 id="实验原理">实验原理</h3>
+
+<p>时钟中断响应后，保存当前进程 A 的寄存器状态；寻找下一个进程 B ；还原进程 B 的寄存器状态。</p>
+
+<h4 id="设计进程控制块和schedule过程">设计进程控制块和<code>schedule</code>过程</h4>
+
+<p>首先要明确：需要保存多少个寄存器。</p>
+
+<blockquote>
+  <p>8086 计算机有以下寄存器：</p>
+
+  <ul>
+    <li>指令指针寄存器：ip</li>
+    <li>段寄存器：cs, es, ds, ss</li>
+    <li>主寄存器：di, si, bp, sp, ax, bx, cx, dx</li>
+    <li>标志寄存器</li>
+  </ul>
+</blockquote>
+
+<p>我使用如下的 C 语言代码来作为进程控制和调度的过程：</p>
+
+<pre><code class="language-c">#define SCHEDULE_QUEUE_LEN 9
+#define NEW 0
+#define RUNNING 1
+struct PCB
+{
+	int ip, cs, es, ds, ss, di, si, bp, sp, ax, bx, cx, dx, flags, pid;
+} q[SCHEDULE_QUEUE_LEN], *qb = q, *qe = q + 1;
+int statues[SCHEDULE_QUEUE_LEN] = {RUNNING, NEW}, pidStack[SCHEDULE_QUEUE_LEN], *top = pidStack;
+void schedule()
+{
+	do
+		if (++qb == q + SCHEDULE_QUEUE_LEN)
+			qb = q;
+	while (statues[qb-&gt;pid] != RUNNING);
+	if (++qe == q + SCHEDULE_QUEUE_LEN)
+		qe = q;
+}
+</code></pre>
+
+<p>在老师给我们的原型中是为每个程序创建一张表，这样做的缺点有两个：一个是每个程序至多只能同时运行一个；另一个是在调度时如果只加载了少数进程，也仍然需要遍历检查所有的程序，会拖慢操作系统运行的速度。因此我在这里实现了一个循环队列，每次保存进程时写入队尾，进程恢复时从队首取一个“有效”的进程块即可。所谓“有效”将在下面“关闭进程”中解释。</p>
+
+<p>这里使用 0 号 pid 代表内核进程。</p>
+
+<h4 id="创建进程">创建进程</h4>
+
+<p>首先创建进程控制块，将<code>cs</code>,<code>ds</code>等寄存器设置为合适的值，然后设置该进程为“就绪”状态。考虑到进程结束后应返回内核并将该进程的<code>statues</code>属性设置为<code>NEW</code>，操作系统应事先在其用户栈内写入返回<code>cs</code>和返回<code>ip</code>。用户程序返回内核后，将<code>alive</code>属性设置为 0，死循环等待时钟中断发生。时钟中断发生后，该进程结束，下一次时间片轮转将不再轮到它。</p>
+
+<p>我实现了一个栈用来分配当前进程的 pid，即当前进程的标识。这样做的好处和上面使用循环队列的好处一样，可以减少分配时候的空转问题。此外，当栈为空的时候，我的操作系统可以重新分配 pid，从而实现杀进程的效果，防止进程资源被用户程序过多占用而不能新开进程。当然，0 号 pid 代表操作系统内核，因此不会被重新分配。</p>
+
+<h4 id="关闭进程">关闭进程</h4>
+
+<p>我这里使用了伪关闭的方法，不是直接将进程的控制块移出队列，而是先在状态表中将其置为关闭，等待调度程序来判断当前进程队列首的进程是否已被关闭，如果是的话直接出队检查下一个进程，直到找到一个有效的进程。由于内核进程是不可以被杀死的，因此进程队列永远不为空。</p>
+
+<pre><code class="language-c">statues[pid] = NEW, *++top = pid;
+</code></pre>
+
+<p>关闭进程时将其<code>pid</code>重新压回栈中，供下一次创建进程时分配。</p>
+
+<p>当然，在当前版本的内核中检测键盘中断没有用多进程实现，因此在多进程运行的时候实际上是没有办法退回到内核的，也就是说这个关闭进程的功能虽然实现是正确的，但是暂时没办法去测试。等待后续版本实现多进程响应键盘中断之后吧。</p>
+
+<h4 id="save和restart过程"><code>save</code>和<code>restart</code>过程</h4>
+
+<p>中断发生时，由 CPU 将标志寄存器<code>flags</code>、代码段寄存器<code>cs</code>、指令指针寄存器<code>ip</code>依次压入堆栈（被中断的程序的堆栈）；中断返回时（即执行<code>iret</code>指令时），CPU 将堆栈中的指令指针寄存器<code>ip</code>、代码段寄存器<code>cs</code>、标志寄存器<code>flags</code>依次弹出堆栈，并转到<code>CS:IP</code>继续原程序的执行。照着文档，我读懂了老师提供的“现场保护”：<code>save</code>过程（旧版）代码和现场恢复<code>restart</code>过 程（旧版）代码。我计划<code>schedule</code>过程由 C 实现，故<code>save</code>过程只需将寄存器保存在外部变量（C 语言的变量）， 然后<code>restore</code>过程需要将外部变量还原到寄存器中。如此安排，<code>schedule</code>过程要做的事情是：将 C 语言的变量保存到 A 进程控制块中，然后调度另一进程 B，将<code>B</code>进程控制块中的寄存器写入 C 语言的变量。</p>
+
+<pre><code class="language-nasm">	call save
+	pusha
+	push ds
+	push es
+
+	push 0
+	call schedule
+restart:
+	pop es
+	pop ds
+	popa
+
+	mov si,[qb]
+	mov es,word[si+12];es
+	mov ss,word[si+20];ss
+	mov ax,word[si+24];ax
+	mov bx,word[si+28];bx
+	mov cx,word[si+32];cx
+	mov dx,word[si+36];dx
+	mov di,word[si+40];di
+	mov bp,word[si+44];bp
+	mov sp,word[si+48];sp
+
+	push word[si+8]
+	push word[si+4]
+	push word[si]
+
+	push word[si+52]
+	push word[si+16];ds
+	pop ds
+	pop si
+
+	push ax
+	mov al,20h
+	out 20h,al
+	out 0A0h,al
+	pop ax
+	iret
+save:
+	push ds
+	push cs
+	pop ds
+	pop word[save_ds]
+	pop word[save_cs]
+
+	mov word[save_si],si
+	mov si,word[qe]
+
+	pop word [si]
+	pop word [si+4]
+	pop word [si+8]
+
+	mov word [si+12],es
+	push word [save_ds]
+	pop word [si+16]
+
+	mov word[si+20],ss
+	mov word[si+24],ax
+	mov word[si+28],bx
+	mov word[si+32],cx
+	mov word[si+36],dx
+	mov word[si+40],di
+	mov word[si+44],bp
+	mov word[si+48],sp
+	push word[save_pid]
+	push word[save_si]
+	pop word[si+52]
+	pop word[si+56]
+	jmp word[save_cs]
+</code></pre>
+
+<p>这里保存变量直接保存在 C 代码中的队尾<code>qe</code>，并在调度后从 C 代码中的队首<code>qb</code>中取出变量恢复即可。</p>
+
+<h2 id="实验过程">实验过程</h2>
+
+<h3 id="实验代码">实验代码</h3>
+
+<h4 id="bootloaderasm">bootloader.asm</h4>
+
+<p>和<a href="https://wu-kan.cn/_posts/2019-04-19-系统调用/">上一个实验</a>中的代码完全相同，不再放出。</p>
+
+<h4 id="kernelasm">kernel.asm</h4>
+
+<p>实现系统中断和时钟中断。</p>
+
+<pre><code class="language-nasm">%macro setIVT 2
+	push es
+	push ds
+	push si
+	pusha
+	xor ax, ax
+	mov es, ax
+	mov ax, %1
+	mov bx, 4
+	mul bx
+	mov si, ax
+	mov ax, %2
+	mov [es:si], ax
+	add si, 2
+	mov ax, cs
+	mov [es:si], ax
+	popa
+	pop si
+	pop ds
+	pop es
+%endmacro
+	bits 16
+	extern qb,qe,schedule,terminal,prgCall
+	global _start
+_start:
+	setIVT 33,int33
+	setIVT 8,int8
+	push 0
+	call terminal
+	ret
+int8:
+	cli
+	call save
+	pusha
+	push ds
+	push es
+
+	push 0
+	call schedule
+restart:
+	pop es
+	pop ds
+	popa
+
+	mov si,[qb]
+	mov es,word[si+12];es
+	mov ss,word[si+20];ss
+	mov ax,word[si+24];ax
+	mov bx,word[si+28];bx
+	mov cx,word[si+32];cx
+	mov dx,word[si+36];dx
+	mov di,word[si+40];di
+	mov bp,word[si+44];bp
+	mov sp,word[si+48];sp
+
+	push word[si+8]
+	push word[si+4]
+	push word[si]
+
+	push word[si+52]
+	push word[si+16];ds
+	pop ds
+	pop si
+
+	push ax
+	mov al,20h
+	out 20h,al
+	out 0A0h,al
+	pop ax
+	sti
+	iret
+save:
+	push ds
+	push cs
+	pop ds
+	pop word[save_ds]
+	pop word[save_cs]
+
+	mov word[save_si],si
+	mov si,word[qe]
+
+	pop word [si]
+	pop word [si+4]
+	pop word [si+8]
+
+	mov word [si+12],es
+	push word [save_ds]
+	pop word [si+16]
+
+	mov word[si+20],ss
+	mov word[si+24],ax
+	mov word[si+28],bx
+	mov word[si+32],cx
+	mov word[si+36],dx
+	mov word[si+40],di
+	mov word[si+44],bp
+	mov word[si+48],sp
+	push word[save_pid]
+	push word[save_si]
+	pop word[si+52]
+	pop word[si+56]
+	jmp word[save_cs]
+
+int33:
+	cli
+	mov al,ah
+	xor ah,ah
+	push eax
+	push 0
+	call prgCall
+	pop eax
+	sti
+	iret
+datadef:
+	save_cs dw 0
+	save_si dw 0
+	save_ds dw 0
+	save_pid dw 0
+</code></pre>
+
+<h3 id="kernerc">kerner.c</h3>
+
+<p>实现二状态进程调度功能，前面已经解释过了。</p>
+
+<p>此外，修复了滚屏的时候有时会出现灰屏的问题（忘记给<code>bh</code>寄存器赋值了）。</p>
+
+<pre><code class="language-c">#define SCREEN_WIDTH 80
+#define SCREEN_HEIGHT 25
+#define BUF_LEN (SCREEN_WIDTH * SCREEN_HEIGHT)
+#define PROGRAM_NUM 4
+#define SCHEDULE_QUEUE_LEN 5
+#define NEW 0
+#define RUNNING 1
+struct PCB
+{
+	int ip, cs, es, ds, ss, di, si, bp, sp, ax, bx, cx, dx, flags, pid;
+} q[SCHEDULE_QUEUE_LEN], *qb = q, *qe = q + 1;
+int statues[SCHEDULE_QUEUE_LEN] = {RUNNING, NEW}, pidStack[SCHEDULE_QUEUE_LEN], *top = pidStack;
+void schedule()
+{
+	do
+		if (++qb == q + SCHEDULE_QUEUE_LEN)
+			qb = q;
+	while (statues[qb-&gt;pid] != RUNNING);
+	if (++qe == q + SCHEDULE_QUEUE_LEN)
+		qe = q;
+}
+const struct
+{
+	const char *name, *size, *command;
+	int address;
+} prg[PROGRAM_NUM] =
+	{{"prg1", "    156 bytes", "prg1", 1},
+	 {"prg2", "    158 bytes", "prg2", 2},
+	 {"prg3", "    168 bytes", "prg3", 3},
+	 {"prg4", "    174 bytes", "prg4", 4}};
+void loadProgram(int PrgSectorOffset, int UserPrgOffset)
+{
+	asm("int 0x13"
+		:
+		: "a"(2 &lt;&lt; 8 | 1), "b"(UserPrgOffset), "c"(PrgSectorOffset), "d"(1 &lt;&lt; 8));
+}
+void call(int UserPrgOffset)
+{
+	asm("call bx"
+		:
+		: "b"(UserPrgOffset));
+}
+void prgCall(int i)
+{
+	loadProgram(prg[i].address, 0x0a100 + i * 0x100), call(0x0a100 + i * 0x100);
+}
+int getCursor()
+{
+	int p;
+	asm("int 0x10"
+		: "=d"(p)
+		: "a"(0x0300), "b"(0));
+	return p;
+}
+void setCursor(int pos)
+{
+	asm("int 0x10"
+		:
+		: "a"(0x0200), "b"(0), "d"(pos));
+}
+void pageUP(int p)
+{
+	asm("push bx\n"
+		"mov bh,0\n"
+		"int 0x10\n"
+		"pop bx\n"
+		:
+		: "a"(1536 + p), "c"(0), "d"(0x184F));
+}
+void putC(int ch, int color)
+{
+	asm("int 0x10"
+		:
+		: "a"(9 &lt;&lt; 8 | ch), "b"(color), "c"(1));
+}
+int getch()
+{
+	int ch;
+	asm("getch_loop:\n"
+		"mov ah, 0x01\n"
+		"int 0x16\n"
+		"jz getch_loop\n"
+		"mov ah, 0x00\n"
+		"int 0x16\n"
+		"xor ah, ah\n"
+		: "=a"(ch)
+		:);
+	return ch;
+}
+void putchar(char c)
+{
+	int cur = getCursor(), curX = cur &gt;&gt; 8, curY = cur - (curX &lt;&lt; 8);
+	if (c == '\r' || c == '\n')
+	{
+		if (++curX &gt;= SCREEN_HEIGHT)
+			--curX, pageUP(1);
+		return setCursor(curX &lt;&lt; 8);
+	}
+	putC(c, 0x07);
+	if (++curY &gt;= SCREEN_WIDTH)
+		putchar('\n');
+	else
+		setCursor(curX &lt;&lt; 8 | curY);
+}
+void gets(char *s)
+{
+	for (;; ++s)
+	{
+		putchar(*s = getch());
+		if (*s == '\r' || *s == '\n')
+			break;
+	}
+	*s = 0;
+}
+void printf(const char *s)
+{
+	for (; *s; ++s)
+		putchar(*s);
+}
+int strcmp(const char *s1, const char *s2)
+{
+	while (*s1 &amp;&amp; (*s1 == *s2))
+		++s1, ++s2;
+	return (int)*s1 - (int)*s2;
+}
+void terminal()
+{
+	char str[BUF_LEN] = "$ ";
+	printf(str), gets(str);
+	const char
+		*CLEAR_COM = "clear",
+		*HELP_COM = "help",
+		*EXEC_COM = "exec",
+		*EXECPRO_COM = "execpro",
+		*EXIT_COM = "exit",
+		*KILL_COM = "kill",
+		*LS_COM = "ls",
+		*PS_COM = "ps";
+	if (!strcmp(str, CLEAR_COM))
+		pageUP(SCREEN_HEIGHT), setCursor(0);
+	else if (!strcmp(str, HELP_COM))
+	{
+		const char
+			*HELP_INFO =
+				"WuK-shell v0.0.3\n"
+				"These shell commands are defined internally.\n"
+				"Command         Description\n"
+				"clear        -- Clean the screen\n"
+				"help         -- Show this list\n"
+				"exec         -- Execute all the user programs\n"
+				"execpro      -- Execute all the user programs by mutiprocess\n"
+				"exit         -- Exit OS\n"
+				"kill         -- kill process\n"
+				"ls           -- Show existing programs\n"
+				"prg[num]     -- Execute the num-th program\n"
+				"ps           -- Show running programs with their pid\n";
+		printf(HELP_INFO);
+	}
+	else if (!strcmp(str, EXEC_COM))
+		for (int i = 0; i &lt; PROGRAM_NUM; ++i)
+			prgCall(i);
+	else if (!strcmp(str, EXECPRO_COM))
+		for (int i = 0; i &lt; PROGRAM_NUM; ++i)
+		{
+			if (top == pidStack)
+				for (int j = 1; j &lt; SCHEDULE_QUEUE_LEN; ++j)
+					*++top = j;
+
+			qe-&gt;flags = 512;
+			qe-&gt;ip = 0x000;
+			qe-&gt;sp = qe-&gt;ip - 8;
+			qe-&gt;ss = qe-&gt;es = qe-&gt;ds = qe-&gt;cs = 0xa100 + i * 0x100;
+
+			loadProgram(prg[i].address, 0x0a100 + i * 0x100);
+			statues[qe-&gt;pid = *(top--)] = RUNNING;
+			if (++qe == q + SCHEDULE_QUEUE_LEN)
+				qe = q;
+		}
+	else if (!strcmp(str, EXIT_COM))
+		return pageUP(SCREEN_HEIGHT);
+	else if (!strcmp(str, KILL_COM))
+	{
+		const char *INFO = "Input the pid to kill: ";
+		printf(INFO);
+		gets(str);
+		int pid = str[0] - '0';
+		if (pid &lt;= 0)
+		{
+			const char *INFO = "Can not kill process 0.\n";
+			printf(INFO);
+		}
+		else if (pid &gt;= SCHEDULE_QUEUE_LEN || statues[pid] != RUNNING)
+		{
+			const char *INFO = "Invalid pid.\n";
+			printf(INFO);
+		}
+		else
+			statues[pid] = NEW, *++top = pid;
+	}
+	else if (!strcmp(str, LS_COM))
+		for (int i = 0; i &lt; PROGRAM_NUM; ++i)
+			printf(prg[i].name), printf(prg[i].size), putchar('\n');
+	else if (!strcmp(str, PS_COM))
+	{
+		const char
+			*INFO = "pid statues\n",
+			*RUNNING_INFO = "   RUNNING\n",
+			*NEW_INFO = "   NEW\n";
+		printf(INFO);
+		for (int i = 0; i &lt; SCHEDULE_QUEUE_LEN; ++i)
+		{
+			putchar('0' + i);
+			printf(statues[i] == RUNNING ? RUNNING_INFO : NEW_INFO);
+		}
+	}
+	else
+		for (int i = 0;; ++i)
+		{
+			if (i == PROGRAM_NUM)
+			{
+				printf(str);
+				const char
+					*COMM_NOT_FOUND =
+						" : command not found, type \'help\' for available commands list.\n";
+				printf(COMM_NOT_FOUND);
+				break;
+			}
+			if (!strcmp(str, prg[i].command))
+			{
+				asm("int 33" ::"a"(i &lt;&lt; 8));
+				break;
+			}
+		}
+	terminal();
+}
+</code></pre>
+
+<h4 id="linkld">link.ld</h4>
+
+<p>将<code>wukos.asm</code>和<code>kernel.c</code>两个文件编译出来的内容连接起来。和<a href="https://wu-kan.cn/_posts/2019-04-19-系统调用/">上一个实验</a>中的完全相同，不再放出。</p>
+
+<h4 id="prg1asmprg4asm">prg1.asm~prg4.asm</h4>
+
+<p>由于多进程调用时会同时访问变量，因此每个用户程序需要重新维护自己的运行变量，而不能像之前一样通过系统调用提供唯一个入口了。</p>
+
+<p>这里在实验二中实现的用户程序上修改、完善一下。</p>
+
+<pre><code class="language-nasm">%macro print 5 ; string, length, x, y, color
+	pusha
+	push ax
+	push bx
+	push cx
+	push dx
+	push bp
+	push ds
+	push es
+	mov ax, 0b800H
+	mov gs, ax
+	mov ax, cs
+	mov ds, ax
+	mov bp, %1
+	mov ax, ds
+	mov es, ax
+	mov cx, %2
+	mov ax, 1300H
+	mov dh, %3
+	mov dl, %4
+	mov bx, %5
+	int 10H
+	pop es
+	pop ds
+	pop bp
+	pop dx
+	pop cx
+	pop bx
+	pop ax
+	popa
+%endmacro
+N equ 12	;显示区域高度
+M equ 32	;显示区域宽度减去字符串长度
+TOP equ 2	;显示区域上端点
+LEFT equ 40	;显示区域左端点
+LENGTH equ 8	;字符串的长度
+DELAY equ 99999999
+org 0A100h
+myLoop:
+	dec dword[count]	; 递减计数变量
+	jnz myLoop	; &gt;0：跳转
+	mov dword[count], DELAY
+
+	mov word ax, [t]	; ax = t
+	mov word bx,2*N-2
+	xor dx, dx	; clear dx and prepare for division
+	div bx  ; dx = t mod (2N - 2)
+	cmp dx, N ; compare dx and n
+	jb xok  ; if (dx &lt; n) jump xok
+	sub bx, dx
+	mov dx, bx ; dx = 2n - 2 - dx
+xok:
+	mov word[x], dx
+	add word[x], TOP
+
+	mov word ax, [t]
+	mov word bx, 2*M-2
+	xor dx, dx
+	div bx
+	cmp dx, M
+	jb yok
+	sub bx, dx
+	mov dx, bx
+yok:
+	mov word [y],dx
+	add word [y],LEFT
+
+	print message,LENGTH,[x],[y],07H
+	inc word[t]
+	mov word ax,[t]
+	cmp ax, 63
+	jne myLoop
+	ret
+datadef:
+	count dd 1
+	t dw 0
+	x dw 1
+	y dw 0
+	message db ' wu-kan '
+</code></pre>
+
+<p>上面是 prg1.asm 的内容，其余同理，不再放出。</p>
+
+<h4 id="makefile">Makefile</h4>
+
+<p>和<a href="https://wu-kan.cn/_posts/2019-04-19-系统调用/">上一个实验</a>完全相同，不再放出。</p>
+
+<h3 id="运行结果">运行结果</h3>
+
+<p>输入<code>prg4</code>，通过系统中断打开一个用户程序。可以看到系统中断服务仍然可以工作。
+<img src="/assets/image/2019-05-06-1.jpg" alt="1" />
+输入<code>ps</code>，显示当前进程的状态。当前只有一个进程，即内核，在运行。
+<img src="/assets/image/2019-05-06-2.jpg" alt="2" />
+输入<code>kill</code>后输入<code>0</code>，杀掉 pid 为 0 的内核。可以看到无法杀掉内核进程。
+<img src="/assets/image/2019-05-06-3.jpg" alt="3" />
+输入<code>execpro</code>，多进程的打开四个用户程序。可以看到，成功文体四开花了，而且四个象限的运行速度不一样。
+<img src="/assets/image/2019-05-06-4.jpg" alt="4" /></p>
+
+<h2 id="实验总结">实验总结</h2>
+
+<p>这次实验让我深入了解了多进程时间片轮转的工作原理。原理很简单，就是<code>save</code>,<code>schedule</code>和<code>restart</code>，但实现起来可不简单。</p>
+
+<p>在<code>save</code>过程和<code>restart</code>过程中，最容易出错是栈。当前栈内元素是什么，这个一定要非常清楚。当使用<code>call</code>操作和<code>ret</code>操作时，会修改堆栈。所以应尽量避免使用<code>call</code>和<code>ret</code>操作，避免出错。另外，<code>ss</code>和<code>sp</code>的保存时机也是非常关键的。<code>ss</code>和<code>sp</code>必须在最后保存，这样做是为了保存弹出<code>flags</code>,<code>cs</code>,<code>ip</code>之后的栈指针。</p>
+
+<p>在<code>schedule</code>过程中，更容易在栈的问题上出错。<code>schedule</code>的栈要与<code>kernel</code>的栈以及用户程序的栈都不一样，否则会覆盖原有的数据。一旦踩进这个坑，就很难跳出来，因为你会发现寄存器之类的全部都是对的，只有栈内元素是错的。</p>
+
+<p>另外在汇编代码调用 C 函数之前要<code>push 0</code>，传参数的时候也有很多细节，感谢我的室友添伦大哥对我的帮助！</p>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

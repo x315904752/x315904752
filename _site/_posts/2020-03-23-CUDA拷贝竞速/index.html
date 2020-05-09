@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CUDA内存拷贝竞速 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="CUDA内存拷贝竞速" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="简介" />
+<meta property="og:description" content="简介" />
+<link rel="canonical" href="http://localhost:4000/_posts/2020-03-23-CUDA%E6%8B%B7%E8%B4%9D%E7%AB%9E%E9%80%9F/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2020-03-23-CUDA%E6%8B%B7%E8%B4%9D%E7%AB%9E%E9%80%9F/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-23T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2020-03-23-CUDA%E6%8B%B7%E8%B4%9D%E7%AB%9E%E9%80%9F/","headline":"CUDA内存拷贝竞速","dateModified":"2020-03-23T00:00:00+08:00","datePublished":"2020-03-23T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2020-03-23-CUDA%E6%8B%B7%E8%B4%9D%E7%AB%9E%E9%80%9F/"},"description":"简介","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    CUDA内存拷贝竞速
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    23 Mar 2020
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    7357字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    25分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    高性能计算
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="简介">简介</h2>
+
+<p>近期在做一个 CUDA 相关库的优化，发现稍作一点修改（下文中 <code>simpleZcopy</code> 到 <code>naiveZcopy</code> 的修改）后就让运行时间在 16 秒左右的仿真过程快了将近 1 秒。猜想这个优化方法可能是非常通用的，于是单独做一次实验来验证猜想。</p>
+
+<p>本文在显卡上双精度复数拷贝的场景进行试验，同时和一些常见的高性能拷贝 API 做性能对比。</p>
+
+<h2 id="实验环境">实验环境</h2>
+
+<p>使用 v100 集群上一个结点的单张 v100 运行。</p>
+
+<pre><code class="language-bash">$ nvdia-smi
+Mon Dec  2 08:38:49 2019
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 410.48                 Driver Version: 410.48                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla V100-PCIE...  On   | 00000000:3B:00.0 Off |                    0 |
+| N/A   30C    P0    24W / 250W |      0MiB / 16130MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+</code></pre>
+
+<h2 id="实验过程与分析">实验过程与分析</h2>
+
+<h3 id="一些说明">一些说明</h3>
+
+<h4 id="内存管理">内存管理</h4>
+
+<p>我使用的显卡是 Tesla V100，单卡显存为 16130MiB。为简化代码，我用 <code>&lt;thrust/device_vector.h&gt;</code> 库创建了四个大小为$2^{28}$的向量用于双精度复数输入和输出。</p>
+
+<pre><code class="language-cpp">const size_t
+    n = 1 &lt;&lt; 28;
+thrust::device_vector&lt;double&gt;
+    real_in(n, 1),
+    imag_in(n, 1),
+    real_out(n),
+    imag_out(n);
+</code></pre>
+
+<p>和 <code>cudaMalloc</code> 分配的显存空间相比，<code>thrust::device_vector&lt;double&gt;</code> 的开销在本例中可以忽略。</p>
+
+<h4 id="计时方式">计时方式</h4>
+
+<p>为简化代码，写了这样一个结构体用于各部分的计时，离开代码块的时候自动输出运行时间。通过调用 <code>cudaEventElapsedTime</code> 实现线程安全的计时。</p>
+
+<pre><code class="language-cpp">struct WuKTimer
+{
+    cudaEvent_t beg, end;
+    WuKTimer()
+    {
+        cudaEventCreate(&amp;beg);
+        cudaEventCreate(&amp;end);
+        cudaEventRecord(beg);
+    }
+    ~WuKTimer()
+    {
+        cudaEventRecord(end);
+        cudaEventSynchronize(beg);
+        cudaEventSynchronize(end);
+        float elapsed_time;
+        cudaEventElapsedTime(
+            &amp;elapsed_time,
+            beg,
+            end);
+        printf("%f\n", elapsed_time);
+    }
+};
+</code></pre>
+
+<h4 id="cudaoccupancymaxpotentialblocksize"><code>cudaOccupancyMaxPotentialBlockSize</code></h4>
+
+<p>从 CUDA 6.5 开始，提供了一个很有用的函数 <code>cudaOccupancyMaxPotentialBlockSize</code>，该函数定义在 <code>&lt;cuda_runtime.h&gt;</code>，接口及含义见下面的注释。</p>
+
+<pre><code class="language-cpp">template &lt;class T&gt;
+cudaError_t __inline__ __host__ CUDART_DEVICE
+cudaOccupancyMaxPotentialBlockSize(
+    int *minGridSize,           // Suggested min grid size to achieve a full machine launch.
+    int *blockSize,             // Suggested block size to achieve maximum occupancy.
+    T func,                     // Kernel function.
+    size_t dynamicSMemSize = 0, //Size of dynamically allocated shared memory. Of course, it is known at runtime before any kernel launch. The size of the statically allocated shared memory is not needed as it is inferred by the properties of func.
+    int blockSizeLimit = 0)     //blockSizeLimit  = Maximum size for each block. In the case of 1D kernels, it can coincide with the number of input elements.
+{
+    return cudaOccupancyMaxPotentialBlockSizeVariableSMem(minGridSize, blockSize, func, __cudaOccupancyB2DHelper(dynamicSMemSize), blockSizeLimit);
+}
+</code></pre>
+
+<p>通过这个接口可以获得在 SM 占用率最大时 <code>blockDim</code> 和对应的最小 <code>gridDim</code> ，这样就可以不去关心各种硬件资源的限制写出低开销的调用，同时也省去了自己调参数的过程。</p>
+
+<p>唯一遗憾的是，这个函数获得的值是在运行时而非编译时确定的。也就是说，有时候需要通过 template 参数传 BlockDim 的大小来让编译器做一些优化时（如循环展开，再比如 Shared Memory 的大小），要通过<code>switch</code>语句，略显繁琐。</p>
+
+<h3 id="simplezcopy"><code>simpleZcopy</code></h3>
+
+<p>先来做最基础的算法优化版本。</p>
+
+<pre><code class="language-cpp">void __global__ simpleZcopy(
+	const size_t n,
+	const double *real_in,
+	const double *imag_in,
+	double *real_out,
+	double *imag_out)
+{
+	for (size_t i = threadIdx.x + blockDim.x * blockIdx.x;
+		 i &lt; n;
+		 i += blockDim.x * gridDim.x)
+	{
+		real_out[i] = real_in[i];
+		imag_out[i] = imag_in[i];
+	}
+}
+</code></pre>
+
+<p>运行时间为 12.118016ms。</p>
+
+<h3 id="naivezcopy"><code>naiveZcopy</code></h3>
+
+<p>在 <code>simpleZcopy</code> 基础上，把读操作和写操作分离开。</p>
+
+<pre><code class="language-cpp">void __global__ naiveZcopy(
+	const size_t n,
+	const double *real_in,
+	const double *imag_in,
+	double *real_out,
+	double *imag_out)
+{
+	for (size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+		 i &lt; n;
+		 i += blockDim.x * gridDim.x)
+	{
+		const double
+			real = real_in[i],
+			imag = imag_in[i];
+		real_out[i] = real;
+		imag_out[i] = imag;
+	}
+}
+</code></pre>
+
+<p>运行时间为 12.254208ms。</p>
+
+<h3 id="cudamemcpy"><code>cudaMemcpy</code></h3>
+
+<p>直接使用 cuda 提供的内存拷贝接口实现，分别拷贝实部和虚部。</p>
+
+<pre><code class="language-cpp">cudaMemcpy(
+    thrust::raw_pointer_cast(real_out.data()),
+    thrust::raw_pointer_cast(real_in.data()),
+    sizeof(double) * n,
+    cudaMemcpyDeviceToDevice);
+cudaMemcpy(
+    thrust::raw_pointer_cast(imag_out.data()),
+    thrust::raw_pointer_cast(imag_in.data()),
+    sizeof(double) * n,
+    cudaMemcpyDeviceToDevice);
+</code></pre>
+
+<p>运行时间为 11.898560ms。</p>
+
+<h3 id="cublasdcopy"><code>cublasDcopy</code></h3>
+
+<p>使用 cublas 库中提供的第一级向量操作接口实现。</p>
+
+<pre><code class="language-cpp">cublasDcopy(
+    wk_cublas_handle,
+    n,
+    thrust::raw_pointer_cast(real_in.data()),
+    1,
+    thrust::raw_pointer_cast(real_out.data()),
+    1);
+cublasDcopy(
+    wk_cublas_handle,
+    n,
+    thrust::raw_pointer_cast(imag_in.data()),
+    1,
+    thrust::raw_pointer_cast(imag_out.data()),
+    1);
+</code></pre>
+
+<p>运行时间为 12.208064ms，更慢了。</p>
+
+<h3 id="thrustcopy"><code>thrust::copy</code></h3>
+
+<pre><code class="language-cpp">thrust::copy(
+    real_in.begin(),
+    real_in.end(),
+    real_out.begin());
+thrust::copy(
+    imag_in.begin(),
+    imag_in.end(),
+    imag_out.begin());
+</code></pre>
+
+<p>运行时间 11.536608ms。</p>
+
+<h3 id="thrustdevice_vectordoubleoperator"><code>thrust::device_vector&lt;double&gt;::operator=</code></h3>
+
+<p>我们是使用 <code>thrust::device_vector&lt;double&gt;</code> 进行内存管理的，我们也可以直接调用它的拷贝赋值函数。</p>
+
+<pre><code class="language-cpp">real_out = real_in;
+imag_out = imag_in;
+</code></pre>
+
+<p>运行时间 11.528096ms，和前一个差不多。</p>
+
+<h2 id="源代码">源代码</h2>
+
+<h3 id="zcopypbs"><code>Zcopy.pbs</code></h3>
+
+<p>调度脚本。</p>
+
+<pre><code class="language-bash">#PBS -N Zcopy
+#PBS -l nodes=1:ppn=32:gpus=1
+#PBS -j oe
+#PBS -q gpu
+source /public/software/profile.d/cuda10.0.sh
+cd $PBS_O_WORKDIR
+nvcc Zcopy.cu -run -lcublas
+</code></pre>
+
+<h3 id="zcopyo18921"><code>Zcopy.o18921</code></h3>
+
+<p>运行结果，自上而下分别是 <code>simpleZcopy</code>、<code>naiveZcopy</code>、<code>cudaMemcpy</code>、<code>cublasDcopy</code>、<code>thrust::copy</code>、<code>thrust::device_vector&lt;double&gt;::operator=</code> 的运行时间。</p>
+
+<pre><code class="language-bash">12.118016
+12.254208
+11.898560
+12.208064
+11.536608
+11.528096
+</code></pre>
+
+<h3 id="zcopycu"><code>Zcopy.cu</code></h3>
+
+<pre><code class="language-cpp">#include &lt;stdio.h&gt;
+#include &lt;cuda_runtime.h&gt;
+#include &lt;thrust/device_vector.h&gt;
+#include &lt;thrust/copy.h&gt;
+#include &lt;cublas_v2.h&gt;
+void __global__ simpleZcopy(
+    const size_t n,
+    const double *real_in,
+    const double *imag_in,
+    double *real_out,
+    double *imag_out)
+{
+    for (size_t i = threadIdx.x + blockDim.x * blockIdx.x;
+         i &lt; n;
+         i += blockDim.x * gridDim.x)
+    {
+        real_out[i] = real_in[i];
+        imag_out[i] = imag_in[i];
+    }
+}
+void __global__ naiveZcopy(
+    const size_t n,
+    const double *real_in,
+    const double *imag_in,
+    double *real_out,
+    double *imag_out)
+{
+    for (size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+         i &lt; n;
+         i += blockDim.x * gridDim.x)
+    {
+        const double
+            real = real_in[i],
+            imag = imag_in[i];
+        real_out[i] = real;
+        imag_out[i] = imag;
+    }
+}
+struct WuKTimer
+{
+    cudaEvent_t beg, end;
+    WuKTimer()
+    {
+        cudaEventCreate(&amp;beg);
+        cudaEventCreate(&amp;end);
+        cudaEventRecord(beg);
+    }
+    ~WuKTimer()
+    {
+        cudaEventRecord(end);
+        cudaEventSynchronize(beg);
+        cudaEventSynchronize(end);
+        float elapsed_time;
+        cudaEventElapsedTime(
+            &amp;elapsed_time,
+            beg,
+            end);
+        printf("%f\n", elapsed_time);
+    }
+};
+const size_t
+    n = 1 &lt;&lt; 28;
+thrust::device_vector&lt;double&gt;
+    real_in(n, 1),
+    imag_in(n, 1),
+    real_out(n),
+    imag_out(n);
+int main()
+{
+    {
+        WuKTimer wk_timer;
+        int minGridSize, blockSize;
+        cudaOccupancyMaxPotentialBlockSize(
+            &amp;minGridSize,
+            &amp;blockSize,
+            simpleZcopy);
+        simpleZcopy&lt;&lt;&lt;
+            minGridSize,
+            blockSize&gt;&gt;&gt;(
+            n,
+            thrust::raw_pointer_cast(real_in.data()),
+            thrust::raw_pointer_cast(imag_in.data()),
+            thrust::raw_pointer_cast(real_out.data()),
+            thrust::raw_pointer_cast(imag_out.data()));
+    }
+    {
+        WuKTimer wk_timer;
+        int minGridSize, blockSize;
+        cudaOccupancyMaxPotentialBlockSize(
+            &amp;minGridSize,
+            &amp;blockSize,
+            naiveZcopy);
+        naiveZcopy&lt;&lt;&lt;
+            minGridSize,
+            blockSize&gt;&gt;&gt;(
+            n,
+            thrust::raw_pointer_cast(real_in.data()),
+            thrust::raw_pointer_cast(imag_in.data()),
+            thrust::raw_pointer_cast(real_out.data()),
+            thrust::raw_pointer_cast(imag_out.data()));
+    }
+    {
+        WuKTimer wk_timer;
+        cudaMemcpy(
+            thrust::raw_pointer_cast(real_out.data()),
+            thrust::raw_pointer_cast(real_in.data()),
+            sizeof(double) * n,
+            cudaMemcpyDeviceToDevice);
+        cudaMemcpy(
+            thrust::raw_pointer_cast(imag_out.data()),
+            thrust::raw_pointer_cast(imag_in.data()),
+            sizeof(double) * n,
+            cudaMemcpyDeviceToDevice);
+    }
+    cublasHandle_t wk_cublas_handle;
+    cublasCreate(&amp;wk_cublas_handle);
+    {
+        WuKTimer wk_timer;
+        cublasDcopy(
+            wk_cublas_handle,
+            n,
+            thrust::raw_pointer_cast(real_in.data()),
+            1,
+            thrust::raw_pointer_cast(real_out.data()),
+            1);
+        cublasDcopy(
+            wk_cublas_handle,
+            n,
+            thrust::raw_pointer_cast(imag_in.data()),
+            1,
+            thrust::raw_pointer_cast(imag_out.data()),
+            1);
+    }
+    cublasDestroy(wk_cublas_handle);
+    {
+        WuKTimer wk_timer;
+        thrust::copy(
+            real_in.begin(),
+            real_in.end(),
+            real_out.begin());
+        thrust::copy(
+            imag_in.begin(),
+            imag_in.end(),
+            imag_out.begin());
+    }
+    {
+        WuKTimer wk_timer;
+        real_out = real_in;
+        imag_out = imag_in;
+    }
+}
+</code></pre>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

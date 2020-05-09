@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>RDMA学习笔记 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="RDMA学习笔记" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="远程直接内存访问(即Remote Direct Memory Access)是一种直接内存访问技术，它让计算机可以直接存取其他计算机的内存，而不需要经过操作系统和处理器耗时的处理。RDMA将数据从一个系统快速移动到远程系统存储器中，不对操作系统造成任何影响。" />
+<meta property="og:description" content="远程直接内存访问(即Remote Direct Memory Access)是一种直接内存访问技术，它让计算机可以直接存取其他计算机的内存，而不需要经过操作系统和处理器耗时的处理。RDMA将数据从一个系统快速移动到远程系统存储器中，不对操作系统造成任何影响。" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-09-28-RDMA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-09-28-RDMA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-09-28T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-09-28-RDMA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","headline":"RDMA学习笔记","dateModified":"2019-09-28T00:00:00+08:00","datePublished":"2019-09-28T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-09-28-RDMA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"description":"远程直接内存访问(即Remote Direct Memory Access)是一种直接内存访问技术，它让计算机可以直接存取其他计算机的内存，而不需要经过操作系统和处理器耗时的处理。RDMA将数据从一个系统快速移动到远程系统存储器中，不对操作系统造成任何影响。","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    RDMA学习笔记
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    28 Sep 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    25627字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    86分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    ASC
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <p>远程直接内存访问(即Remote Direct Memory Access)是一种直接内存访问技术，它让计算机可以直接存取其他计算机的内存，而不需要经过操作系统和处理器耗时的处理。RDMA将数据从一个系统快速移动到远程系统存储器中，不对操作系统造成任何影响。</p>
+
+<p><img src="https://5b0988e595225.cdn.sohucs.com/images/20180422/c32ef99c45bc418ba29a08d56ae6fbfa.jpeg" alt="支持 RDMA 协议的设备" /></p>
+
+<p>RDMA技术最早出现在Infiniband网络，用于HPC高性能计算集群的互联。支持 RDMA 协议的设备主要有 Infiniband、RoCE、iWARP 网卡，在 HPC、并行存储系统等领域得到广泛应用。</p>
+
+<h2 id="rdma-vs-tcpip">RDMA VS TCP/IP</h2>
+
+<p>传统的基于Socket套接字(TCP/IP协议栈)的网络通信，需要经过操作系统软件协议栈，数据在系统DRAM、处理器Cache和网卡Buffer之间来回拷贝搬移，因此占用了大量的CPU计算资源和内存总线带宽，也加大了网络延时。举例来说，40Gbps的TCP/IP流能耗尽主流服务器的所有CPU资源；RDMA则解决了传统TCP/IP通信的技术痛点。例如，在40Gbps场景下，CPU占用率从100%下降到5%，网络延时从ms级降低到10us以下。</p>
+
+<p>RDMA技术的原理及其与TCP/IP架构的对比如下图所示。</p>
+
+<p><img src="https://5b0988e595225.cdn.sohucs.com/images/20180422/22acd08a57d548e0a83ebd88958b5e1e.jpeg" alt="RDMA技术的原理及其与TCP/IP架构的对比" /></p>
+
+<p>因此，自我理解RDMA为利用相关的硬件和网络技术，服务器的网卡之间可以直接读内存，最终达到高带宽、低延迟和低资源占用率的效果。应用程序不需要参与数据传输过程，只需要指定内存读写地址，开启传输并等待传输完成即可。</p>
+
+<h2 id="rdma的三种实现">RDMA的三种实现</h2>
+
+<p>目前RDMA有三种不同的硬件实现。分别是InfiniBand、iWarp（internet Wide Area RDMA Protocol）、RoCE(RDMA over Converged Ethernet)。其中，Infiniband是一种专为RDMA设计的网络，从硬件级别保证可靠传输 ， 而RoCE 和 iWARP都是基于以太网的RDMA技术，支持相应的verbs接口，如下图所示。</p>
+
+<p><img src="https://img-blog.csdn.net/20180604110329770" alt="三种实现的协议栈" /></p>
+
+<p>从图中不难发现，RoCE协议存在RoCEv1和RoCEv2两个版本，主要区别RoCEv1是基于以太网链路层实现的RDMA协议(交换机需要支持PFC等流控技术，在物理层保证可靠传输)，而RoCEv2是以太网TCP/IP协议中UDP层实现。从性能上，很明显Infiniband网络最好，但网卡和交换机是价格也很高，然而RoCEv2和iWARP仅需使用特殊的网卡就可以了，价格也相对便宜很多。</p>
+
+<p>自己归纳一下，三种实现之间的区别：</p>
+
+<ol>
+  <li>IB网是从硬件上支持RDMA，各方面性能上最优，但是对硬件成本要求最高，需要支持该技术的网卡和交换机。</li>
+  <li>一个允许在以太网上执行RDMA的网络协议。 其较低的网络标头是以太网标头，其较高的网络标头（包括数据）是InfiniBand标头。 这支持在标准以太网基础设施（交换机）上使用RDMA。 只有网卡应该是特殊的，支持RoCE。</li>
+  <li>iWarp一个允许在TCP上执行RDMA的网络协议，可能比普通以太网还要慢，不适合用于生产环境。只有网卡应该是特殊的，并且支持iWARP（如果使用CPU卸载），否则所有iWARP堆栈都可以在SW中实现，并且丧失了大部分RDMA性能优势。IB和RoCE中存在的功能在iWARP中不受支持。 这支持在标准以太网基础设施（交换机）上使用RDMA。</li>
+</ol>
+
+<h2 id="相关概念">相关概念</h2>
+
+<h3 id="qpqueue-pair">QP(Queue Pair)</h3>
+
+<p>Queue Pairs(QP)，每对QP由Send Queue(SQ)和Receive Queue(RQ)构成，这些队列中管理着各种类型的消息。QP会被映射到应用的虚拟地址空间，使得应用直接通过它访问RNIC网卡。</p>
+
+<h3 id="cqcomplete-queue">CQ(Complete Queue)</h3>
+
+<p>完成队列包含了发送到工作队列（WQ）中已完成的工作请求（WR）。每次完成表示一个特定的 WR执行完毕（包括成功完成的WR和不成功完成的WR）。完成队列是一个用来告知应用程序已结束的工作请求的信息（状态、操作码、大小、来源）的机制。CQ有n个完成队列实体（CQE）。CQE的数量在CQ创建的时候被指定。当一个CQP被轮询到，它就从CQ中被删除。CQ是一个CQE的先进选出（FIFO）队列。CQ能服务于发送队列、接收队列或者同时服务于这两种队列。多个不同QP中的工作请求（WQ）可联系到同一个CQ上。</p>
+
+<h3 id="mrmemory-region">MR(Memory Region)</h3>
+
+<p>内存注册机制允许应用程序申请一些连续的虚拟内存空间或者连续的物理内存空间，将这些内存空间提供给网络适配器作为虚拟的连续缓冲区，缓冲区使用虚拟地址。内存注册进程锁定了内存页。（为了防止页被替换出去，同时保持物理和虚拟内存的映射）在注册期间，操作系统检查被注册块的许可。注册进程将虚拟地址与物理地址的映射表写入网络适配器。在注册内存时，对应内存区域的权限会被设定。权限包括本地写、远程读、远程写、原子操作、绑定。每个内存注册（MR）有一个远程的和一个本地的标志（r_key，l_key）。本地标志被本地的HCA 用来访问本地内存，例如在接收数据操作的期间。远程标志提供给远程HCA用来在RDMA操作期间允许远程进程访问本地的系统内存。同一内存缓冲区可以被多次注册（甚至设置不同的操作权限），并且每次注册都会生成不同的标志。</p>
+
+<h3 id="发送请求sr">发送请求（SR）</h3>
+
+<p>SR定义了数据的发送量、从哪里、发送方式、是否通过RDMA、到哪里。</p>
+
+<p>RR定义用来放置通过非RDMA操作接收到的数据的缓冲区。如没有定义缓冲区，并且有个传输者 尝试执行一个发送操作或者一个带立即数的RDMA写操作，那么接收者将会发出接收未就绪的错误（RNR）。</p>
+
+<h3 id="接收请求rr">接收请求（RR）</h3>
+
+<p>RR定义用来放置通过非RDMA操作接收到的数据的缓冲区。如没有定义缓冲区，并且有个传输者 尝试执行一个发送操作或者一个带立即数的RDMA写操作，那么接收者将会发出接收未就绪的错误（RNR）。</p>
+
+<h2 id="rdma工作过程">RDMA工作过程</h2>
+
+<ol>
+  <li>当一个应用执行RDMA 读或写请求时，不执行任何数据复制.在不需要任何内核内存参与的条件下，RDMA 请求从运行在用户空间中的应用中发送到本地NIC( 网卡)。</li>
+  <li>NIC 读取缓冲的内容，并通过网络传送到远程NIC。</li>
+  <li>在网络上传输的RDMA 信息包含目标虚拟地址、内存钥匙和数据本身.请求既可以完全在用户空间中处理(通过轮询用户级完成排列) ，又或者在应用一直睡眠到请求完成时的情况下通过系统中断处理.RDMA 操作使应用可以从一个远程应用的内存中读数据或向这个内存写数据。</li>
+  <li>目标NIC 确认内存钥匙，直接将数据写人应用缓存中.用于操作的远程虚拟内存地址包含在RDMA 信息中。</li>
+</ol>
+
+<h2 id="reviewtcp通信流程">Review：TCP通信流程</h2>
+
+<h3 id="server">Server</h3>
+
+<ol>
+  <li>调用<code>socket()</code>创建一个套接字</li>
+  <li>调用<code>bind()</code>绑定到一个端口</li>
+  <li>调用<code>listen()</code>监听该端口</li>
+  <li>调用<code>accept()</code>等待客户端连接上来(阻塞)</li>
+  <li>建立TCP连接</li>
+  <li>调用<code>send()</code>/<code>receive()</code>通过该连接进行通信</li>
+</ol>
+
+<h3 id="client">Client</h3>
+
+<ol>
+  <li>调用<code>socket()</code>创建一个套接字</li>
+  <li>调用<code>connect()</code>连上服务端</li>
+  <li>建立TCP连接</li>
+  <li>调用<code>send()</code>/<code>receive()</code>通过该连接进行通信</li>
+</ol>
+
+<h2 id="rdma通信流程">RDMA通信流程</h2>
+
+<h3 id="获取rdma设备列表ibv_get_device_list">获取RDMA设备列表（<code>ibv_get_device_list</code>）</h3>
+
+<p>获得机器上的RDMA设备。有点像CUDA。</p>
+
+<pre><code class="language-c">	/* 1 获取设备列表 */
+	int num_devices;
+	struct ibv_device **dev_list = ibv_get_device_list(&amp;num_devices);
+	if (!dev_list || !num_devices)
+	{
+		fprintf(stderr, "failed to get IB devices\n");
+		rc = 1;
+		goto main_exit;
+	}
+</code></pre>
+
+<h3 id="打开一个rdma设备获取一个上下文ibv_open_deviceibv_context">打开一个RDMA设备，获取一个上下文（ibv_open_device、ibv_context）</h3>
+
+<pre><code class="language-c">	/* 2 打开设备，获取设备上下文 */
+	struct ibv_device *ib_dev = dev_list[0];
+	res.ib_ctx = ibv_open_device(ib_dev);
+	if (!res.ib_ctx)
+	{
+		fprintf(stderr, "failed to open device \n");
+		rc = 1;
+		goto main_exit;
+	}
+</code></pre>
+
+<h3 id="释放rdma设备列表占用的资源ibv_free_device_list">释放RDMA设备列表占用的资源（ibv_free_device_list）</h3>
+
+<p>个人理解这一步是在给前两步擦屁股…因为通常需要操作的是单个RDMA设备，而第一步获得的是一个列表。多余的部分自然是要释放掉。</p>
+
+<pre><code class="language-c">	/* 3 释放设备列表占用的资源 */
+	ibv_free_device_list(dev_list);
+	dev_list = NULL;
+	ib_dev = NULL;
+</code></pre>
+
+<h3 id="查询rdma设备端口信息ibv_query_portibv_port_attr">查询RDMA设备端口信息（ibv_query_port、ibv_port_attr）</h3>
+
+<pre><code class="language-c">	/* 4 查询设备端口状态 */
+	if (ibv_query_port(res.ib_ctx, 1, &amp;res.port_attr))
+	{
+		fprintf(stderr, "ibv_query_port on port failed\n");
+		rc = 1;
+		goto main_exit;
+	}
+</code></pre>
+
+<h3 id="分配一个protection-domainibv_alloc_pdibv_pd">分配一个Protection Domain（ibv_alloc_pd、ibv_pd）</h3>
+
+<pre><code class="language-c">	/* 5 创建PD（Protection Domain） */
+	res.pd = ibv_alloc_pd(res.ib_ctx);
+	if (!res.pd)
+	{
+		fprintf(stderr, "ibv_alloc_pd failed\n");
+		rc = 1;
+		goto main_exit;
+	}
+</code></pre>
+
+<h3 id="创建一个complete-queueibv_create_cqibv_cq">创建一个Complete Queue（ibv_create_cq、ibv_cq）</h3>
+
+<pre><code class="language-c">	/* 6 创建CQ（Complete Queue） */
+	int cq_size = 10;
+	res.cq = ibv_create_cq(res.ib_ctx, cq_size, NULL, NULL, 0);
+	if (!res.cq)
+	{
+		fprintf(stderr, "failed to create CQ with %u entries\n", cq_size);
+		rc = 1;
+		goto main_exit;
+	}
+</code></pre>
+
+<h3 id="注册一块memory-regionibv_reg_mribv_mr">注册一块Memory Region（ibv_reg_mr、ibv_mr）</h3>
+
+<pre><code class="language-c">	/* 7 注册MR（Memory Region） */
+	int size = MSG_SIZE;
+	res.buf = (char *)malloc(size);
+	if (!res.buf)
+	{
+		fprintf(stderr, "failed to malloc %Zu bytes to memory buffer\n", size);
+		rc = 1;
+		goto main_exit;
+	}
+	memset(res.buf, 0, size);
+
+	int mr_flags = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE;
+	res.mr = ibv_reg_mr(res.pd, res.buf, size, mr_flags);
+	if (!res.mr)
+	{
+		fprintf(stderr, "ibv_reg_mr failed with mr_flags=0x%x\n", mr_flags);
+		rc = 1;
+		goto main_exit;
+	}
+	fprintf(stdout, "MR was registered with addr=%p, lkey=0x%x, rkey=0x%x, flags=0x%x\n",
+			res.buf, res.mr-&gt;lkey, res.mr-&gt;rkey, mr_flags);
+</code></pre>
+
+<h3 id="创建一个queue-pairibv_create_qpibv_qp">创建一个Queue Pair（ibv_create_qp、ibv_qp）</h3>
+
+<pre><code class="language-c">	/* 8 创建QP（Queue Pair） */
+	struct ibv_qp_init_attr qp_init_attr;
+	memset(&amp;qp_init_attr, 0, sizeof(qp_init_attr));
+	qp_init_attr.qp_type = IBV_QPT_RC;
+	qp_init_attr.sq_sig_all = 1;
+	qp_init_attr.send_cq = res.cq;
+	qp_init_attr.recv_cq = res.cq;
+	qp_init_attr.cap.max_send_wr = 1;
+	qp_init_attr.cap.max_recv_wr = 1;
+	qp_init_attr.cap.max_send_sge = 1;
+	qp_init_attr.cap.max_recv_sge = 1;
+	res.qp = ibv_create_qp(res.pd, &amp;qp_init_attr);
+	if (!res.qp)
+	{
+		fprintf(stderr, "failed to create QP\n");
+		rc = 1;
+		goto main_exit;
+	}
+	fprintf(stdout, "QP was created, QP number=0x%x\n", res.qp-&gt;qp_num);
+</code></pre>
+
+<h3 id="交换控制信息使用socket或rdma_cm-api">交换控制信息（使用Socket或RDMA_CM API）</h3>
+
+<pre><code class="language-c">	/* 9 交换控制信息 */
+	struct cm_con_data_t local_con_data;  // 发送给远程主机的信息
+	struct cm_con_data_t remote_con_data; // 接收远程主机发送过来的信息
+	struct cm_con_data_t tmp_con_data;
+
+	local_con_data.addr = htonll((uintptr_t)res.buf);
+	local_con_data.rkey = htonl(res.mr-&gt;rkey);
+	local_con_data.qp_num = htonl(res.qp-&gt;qp_num);
+	local_con_data.lid = htons(res.port_attr.lid);
+	if (sock_sync_data(server_ip, sizeof(struct cm_con_data_t), (char *)&amp;local_con_data, (char *)&amp;tmp_con_data) &lt; 0)
+	{
+		fprintf(stderr, "failed to exchange connection data between sides\n");
+		rc = 1;
+		goto main_exit;
+	}
+	remote_con_data.addr = ntohll(tmp_con_data.addr);
+	remote_con_data.rkey = ntohl(tmp_con_data.rkey);
+	remote_con_data.qp_num = ntohl(tmp_con_data.qp_num);
+	remote_con_data.lid = ntohs(tmp_con_data.lid);
+	/* save the remote side attributes, we will need it for the post SR */
+	res.remote_props = remote_con_data;
+	fprintf(stdout, "Remote address = 0x%" PRIx64 "\n", remote_con_data.addr);
+	fprintf(stdout, "Remote rkey = 0x%x\n", remote_con_data.rkey);
+	fprintf(stdout, "Remote QP number = 0x%x\n", remote_con_data.qp_num);
+	fprintf(stdout, "Remote LID = 0x%x\n", remote_con_data.lid);
+</code></pre>
+
+<h3 id="转换qp状态reset-init-rtr-rtsibv_modify_qp">转换QP状态RESET-&gt;INIT-&gt;RTR-&gt;RTS（ibv_modify_qp）</h3>
+
+<ul>
+  <li>状态：RESET -&gt; INIT -&gt; RTR -&gt; RTS</li>
+  <li>要严格按照顺序进行转换</li>
+  <li>QP刚创建时状态为RESET</li>
+  <li>INIT之后就可以调用ibv_post_recv提交一个receive buffer了</li>
+  <li>当 QP进入RTR(ready to receive)状态以后，便开始进行接收处理</li>
+  <li>RTR之后便可以转为RTS(ready to send)，RTS状态下可以调用ibv_post_send</li>
+</ul>
+
+<pre><code class="language-c">	/* 10 转换QP状态 */
+	// RESET -&gt; INIT
+	struct ibv_qp_attr attr;
+	int flags;
+	memset(&amp;attr, 0, sizeof(attr));
+	attr.qp_state = IBV_QPS_INIT;
+	attr.port_num = 1; // IB 端口号
+	attr.pkey_index = 0;
+	attr.qp_access_flags = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE;
+	flags = IBV_QP_STATE | IBV_QP_PKEY_INDEX | IBV_QP_PORT | IBV_QP_ACCESS_FLAGS;
+	rc = ibv_modify_qp(res.qp, &amp;attr, flags);
+	if (rc)
+		fprintf(stderr, "failed to modify QP state to INIT\n");
+
+	//INIT -&gt; RTR(Ready To Receive)
+	memset(&amp;attr, 0, sizeof(attr));
+	attr.qp_state = IBV_QPS_RTR;
+	attr.path_mtu = IBV_MTU_256;
+	attr.dest_qp_num = res.remote_props.qp_num;
+	attr.rq_psn = 0;
+	attr.max_dest_rd_atomic = 1;
+	attr.min_rnr_timer = 0x12;
+	attr.ah_attr.is_global = 0;
+	attr.ah_attr.dlid = res.remote_props.lid;
+	attr.ah_attr.sl = 0;
+	attr.ah_attr.src_path_bits = 0;
+	attr.ah_attr.port_num = 1;
+	flags = IBV_QP_STATE | IBV_QP_AV | IBV_QP_PATH_MTU | IBV_QP_DEST_QPN | IBV_QP_RQ_PSN | IBV_QP_MAX_DEST_RD_ATOMIC | IBV_QP_MIN_RNR_TIMER;
+	rc = ibv_modify_qp(res.qp, &amp;attr, flags);
+	if (rc)
+		fprintf(stderr, "failed to modify QP state to RTR\n");
+
+	//RTR -&gt; RTS(Ready To Send)
+	memset(&amp;attr, 0, sizeof(attr));
+	attr.qp_state = IBV_QPS_RTS;
+	attr.timeout = 0x12;
+	attr.retry_cnt = 6;
+	attr.rnr_retry = 0;
+	attr.sq_psn = 0;
+	attr.max_rd_atomic = 1;
+	flags = IBV_QP_STATE | IBV_QP_TIMEOUT | IBV_QP_RETRY_CNT | IBV_QP_RNR_RETRY | IBV_QP_SQ_PSN | IBV_QP_MAX_QP_RD_ATOMIC;
+	rc = ibv_modify_qp(res.qp, &amp;attr, flags);
+	if (rc)
+		fprintf(stderr, "failed to modify QP state to RTS\n");
+</code></pre>
+
+<h3 id="创建发送任务接收任务ibv_send_wr--ibv_recv_wr">创建发送任务/接收任务（ibv_send_wr / ibv_recv_wr）</h3>
+
+<ul>
+  <li>ibv_send_wr（send work request）</li>
+  <li>该任务会被提交到QP中的SQ（Send Queue）中</li>
+  <li>发送任务有三种操作：Send,Read,Write</li>
+  <li>Send操作需要对方执行相应的Receive操作</li>
+  <li>Read/Write直接操作对方内存，对方无感知</li>
+  <li>把要发送的数据的内存地址，大小，密钥告诉HCA</li>
+  <li>Read/Write还需要告诉HCA远程的内存地址和密钥</li>
+</ul>
+
+<pre><code class="language-c">	/* 11 创建发送任务ibv_send_wr */
+	struct ibv_send_wr sr;
+	struct ibv_sge sge;
+	struct ibv_send_wr *bad_wr = NULL;
+	int rc;
+	/* prepare the scatter/gather entry */
+	memset(&amp;sge, 0, sizeof(sge));
+	sge.addr = (uintptr_t)res-&gt;buf;
+	sge.length = MSG_SIZE;
+	sge.lkey = res-&gt;mr-&gt;lkey;
+	/* prepare the send work request */
+	memset(&amp;sr, 0, sizeof(sr));
+	sr.next = NULL;
+	sr.wr_id = 0;
+	sr.sg_list = &amp;sge;
+	sr.num_sge = 1;
+	sr.opcode = opcode;
+	sr.send_flags = IBV_SEND_SIGNALED;
+	if (opcode != IBV_WR_SEND)
+	{
+		sr.wr.rdma.remote_addr = res-&gt;remote_props.addr;
+		sr.wr.rdma.rkey = res-&gt;remote_props.rkey;
+	}
+</code></pre>
+
+<h3 id="提交发送任务接收任务ibv_post_send--ibv_post_recv">提交发送任务/接收任务（ibv_post_send / ibv_post_recv）</h3>
+
+<pre><code class="language-c">	rc = ibv_post_send(res-&gt;qp, &amp;sr, &amp;bad_wr);
+	if (rc)
+		fprintf(stderr, "failed to post SR\n");
+	return rc;
+</code></pre>
+
+<h3 id="轮询任务完成信息ibv_poll_cq">轮询任务完成信息（ibv_poll_cq）</h3>
+
+<pre><code class="language-c">	/* 13 轮询任务结果 */
+	struct ibv_wc wc;
+	int poll_result;
+	int rc = 0;
+	do
+	{
+		poll_result = ibv_poll_cq(res-&gt;cq, 1, &amp;wc);
+	} while (poll_result == 0);
+</code></pre>
+
+<h2 id="完整示例代码rdma_read_write_democ">完整示例代码（<code>RDMA_Read_Write_Demo.c</code>）</h2>
+
+<pre><code class="language-c">/*
+* BUILD COMMAND:
+* gcc -Wall  -o RDMA_Read_Write_Demo   RDMA_Read_Write_Demo.c -libverbs
+*/
+/******************************************************************************
+*
+* RDMA Aware Networks Programming Example
+*
+* This code demonstrates how to perform the following operations using the * VPI Verbs API:
+*
+* Send
+* Receive
+* RDMA Read
+* RDMA Write
+*
+*****************************************************************************/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+#include &lt;endian.h&gt;
+#include &lt;byteswap.h&gt;
+#include &lt;getopt.h&gt;
+
+#include &lt;sys/time.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;infiniband/verbs.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netdb.h&gt;
+
+/* poll CQ timeout in millisec (2 seconds) */
+#define MAX_POLL_CQ_TIMEOUT 20000
+#define MSG "SEND operation "
+#define MSG_SIZE 1048576 //1MB
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+static inline uint64_t htonll(uint64_t x) { return bswap_64(x); }
+static inline uint64_t ntohll(uint64_t x) { return bswap_64(x); }
+#elif __BYTE_ORDER == __BIG_ENDIAN
+static inline uint64_t htonll(uint64_t x) { return x; }
+static inline uint64_t ntohll(uint64_t x) { return x; }
+#else
+#error __BYTE_ORDER is neither __LITTLE_ENDIAN nor __BIG_ENDIAN
+#endif
+
+/* structure to exchange data which is needed to connect the QPs */
+struct cm_con_data_t
+{
+	uint64_t addr;   /* Buffer address */
+	uint32_t rkey;   /* Remote key */
+	uint32_t qp_num; /* QP number */
+	uint16_t lid;	/* LID of the IB port */
+} __attribute__((packed));
+
+/* structure of system resources */
+struct resources
+{
+	struct ibv_device_attr device_attr; /* Device attributes */
+	struct ibv_port_attr port_attr;		/* IB port attributes */
+	struct cm_con_data_t remote_props;  /* values to connect to remote side */
+	struct ibv_context *ib_ctx;			/* device handle */
+	struct ibv_pd *pd;					/* PD handle */
+	struct ibv_cq *cq;					/* CQ handle */
+	struct ibv_qp *qp;					/* QP handle */
+	struct ibv_mr *mr;					/* MR handle for buf */
+	char *buf;							/* memory buffer pointer */
+};
+
+/******************************************************************************
+* Function: sock_connect
+*
+* Input
+* servername URL of server to connect to (NULL for server mode)
+* port port of service
+*
+* Output
+* none
+*
+* Returns
+* socket (fd) on success, negative error code on failure
+*
+* Description
+* Connect a socket. If servername is specified a client connection will be
+* initiated to the indicated server and port. Otherwise listen on the
+* indicated port for an incoming connection.
+*
+******************************************************************************/
+static int sock_connect(const char *servername, int port)
+{
+	struct addrinfo *resolved_addr = NULL;
+	struct addrinfo *iterator;
+	char service[6];
+	int sockfd = -1;
+	int listenfd = 0;
+	int tmp;
+	struct addrinfo hints =
+		{
+			.ai_flags = AI_PASSIVE,
+			.ai_family = AF_INET,
+			.ai_socktype = SOCK_STREAM};
+
+	if (sprintf(service, "%d", port) &lt; 0)
+		goto sock_connect_exit;
+	/* Resolve DNS address, use sockfd as temp storage */
+	sockfd = getaddrinfo(servername, service, &amp;hints, &amp;resolved_addr);
+	if (sockfd &lt; 0)
+	{
+		fprintf(stderr, "%s for %s:%d\n", gai_strerror(sockfd), servername, port);
+		goto sock_connect_exit;
+	}
+	/* Search through results and find the one we want */
+	for (iterator = resolved_addr; iterator; iterator = iterator-&gt;ai_next)
+	{
+		sockfd = socket(iterator-&gt;ai_family, iterator-&gt;ai_socktype, iterator-&gt;ai_protocol);
+		if (sockfd &gt;= 0)
+		{
+			if (servername)
+			{
+				/* Client mode. Initiate connection to remote */
+				if ((tmp = connect(sockfd, iterator-&gt;ai_addr, iterator-&gt;ai_addrlen)))
+				{
+					fprintf(stdout, "failed connect \n");
+					close(sockfd);
+					sockfd = -1;
+				}
+			}
+			else
+			{
+				/* Server mode. Set up listening socket an accept a connection */
+				listenfd = sockfd;
+				sockfd = -1;
+				if (bind(listenfd, iterator-&gt;ai_addr, iterator-&gt;ai_addrlen))
+					goto sock_connect_exit;
+				listen(listenfd, 1);
+				sockfd = accept(listenfd, NULL, 0);
+			}
+		}
+	}
+sock_connect_exit:
+	if (listenfd)
+		close(listenfd);
+	if (resolved_addr)
+		freeaddrinfo(resolved_addr);
+	if (sockfd &lt; 0)
+	{
+		if (servername)
+			fprintf(stderr, "Couldn't connect to %s:%d\n", servername, port);
+		else
+		{
+			perror("server accept");
+			fprintf(stderr, "accept() failed\n");
+		}
+	}
+	return sockfd;
+}
+
+/******************************************************************************
+* Function: sock_sync_data
+*
+* Input
+Table 5 -
+* sock socket to transfer data on
+* xfer_size size of data to transfer
+* local_data pointer to data to be sent to remote (local_data是一个指向要发送到远程的数据的指针)
+*
+* Output
+* remote_data pointer to buffer to receive remote data
+*
+* Returns
+* 0 on success, negative error code on failure
+*
+* Description
+* Sync data across a socket. The indicated local data will be sent to the
+* remote. It will then wait for the remote to send its data back. It is
+* assumed that the two sides are in sync and call this function in the proper
+* order. Chaos will ensue if they are not. :)
+*
+* Also note this is a blocking function and will wait for the full data to be
+* received from the remote.
+*
+******************************************************************************/
+int sock_sync_data(char *server_ip, int xfer_size, char *local_data, char *remote_data)
+{
+	int sock = -1;
+	int port = 10002;
+	int rc;
+	if (server_ip)
+	{
+		sock = sock_connect(server_ip, port);
+		if (sock &lt; 0)
+		{
+			fprintf(stderr, "failed to establish TCP connection to server %s, port %d\n",
+					server_ip, port);
+			rc = -1;
+		}
+	}
+	else
+	{
+		fprintf(stdout, "waiting on port %d for TCP connection\n", port);
+		sock = sock_connect(NULL, port);
+		if (sock &lt; 0)
+		{
+			fprintf(stderr, "failed to establish TCP connection with client\n");
+			rc = -1;
+		}
+	}
+	fprintf(stdout, "TCP connection was established\n");
+	int read_bytes = 0;
+	int total_read_bytes = 0;
+	rc = write(sock, local_data, xfer_size);
+	if (rc &lt; xfer_size)
+		fprintf(stderr, "Failed writing data during sock_sync_data\n");
+	else
+		rc = 0;
+	while (!rc &amp;&amp; total_read_bytes &lt; xfer_size)
+	{
+		read_bytes = read(sock, remote_data, xfer_size);
+		if (read_bytes &gt; 0)
+			total_read_bytes += read_bytes;
+		else
+			rc = read_bytes;
+	}
+
+	sleep(2); //sleep 2s
+	if (sock &gt; 0)
+		close(sock);
+	return rc;
+}
+/******************************************************************************
+End of socket operations
+******************************************************************************/
+
+/* poll_completion */
+/******************************************************************************
+* Function: poll_completion
+*
+* Input
+* res pointer to resources structure
+*
+* Output
+* none
+*
+* Returns
+* 0 on success, 1 on failure
+*
+* Description
+* Poll the completion queue for a single event. This function will continue to
+* poll the queue until MAX_POLL_CQ_TIMEOUT milliseconds have passed. (轮询获得一个CQ事件)
+*
+******************************************************************************/
+static int poll_completion(struct resources *res)
+{
+	/* 13 轮询任务结果 */
+	struct ibv_wc wc;
+	int poll_result;
+	int rc = 0;
+	do
+	{
+		poll_result = ibv_poll_cq(res-&gt;cq, 1, &amp;wc);
+	} while (poll_result == 0);
+
+	if (poll_result &lt; 0)
+	{
+		/* poll CQ failed */
+		fprintf(stderr, "poll CQ failed\n");
+		rc = 1;
+	}
+	else
+	{
+		if (wc.status != IBV_WC_SUCCESS)
+		{
+			fprintf(stderr, "got bad completion with status: 0x%x, vendor syndrome: 0x%x\n", wc.status,
+					wc.vendor_err);
+			rc = 1;
+		}
+	}
+	return rc;
+}
+
+/******************************************************************************
+* Function: post_send
+*
+* Input
+* res pointer to resources structure
+* opcode IBV_WR_SEND, IBV_WR_RDMA_READ or IBV_WR_RDMA_WRITE
+*
+* Output
+* none
+*
+* Returns
+* 0 on success, error code on failure
+*
+* Description
+* This function will create and post a send work request
+******************************************************************************/
+static int post_send(struct resources *res, int opcode)
+{
+	/* 11 创建发送任务ibv_send_wr */
+	struct ibv_send_wr sr;
+	struct ibv_sge sge;
+	struct ibv_send_wr *bad_wr = NULL;
+	int rc;
+	/* prepare the scatter/gather entry */
+	memset(&amp;sge, 0, sizeof(sge));
+	sge.addr = (uintptr_t)res-&gt;buf;
+	sge.length = MSG_SIZE;
+	sge.lkey = res-&gt;mr-&gt;lkey;
+	/* prepare the send work request */
+	memset(&amp;sr, 0, sizeof(sr));
+	sr.next = NULL;
+	sr.wr_id = 0;
+	sr.sg_list = &amp;sge;
+	sr.num_sge = 1;
+	sr.opcode = opcode;
+	sr.send_flags = IBV_SEND_SIGNALED;
+	if (opcode != IBV_WR_SEND)
+	{
+		sr.wr.rdma.remote_addr = res-&gt;remote_props.addr;
+		sr.wr.rdma.rkey = res-&gt;remote_props.rkey;
+	}
+	/* 12 提交发送任务 */
+	rc = ibv_post_send(res-&gt;qp, &amp;sr, &amp;bad_wr);
+	if (rc)
+		fprintf(stderr, "failed to post SR\n");
+	return rc;
+}
+
+/******************************************************************************
+* Function: post_receive
+*
+* Input
+* res pointer to resources structure
+*
+* Output
+* none
+*
+* Returns
+* 0 on success, error code on failure
+*
+* Description
+*
+******************************************************************************/
+static int post_receive(struct resources *res)
+{
+	/* 11 创建接收任务ibv_resv_wr */
+	struct ibv_recv_wr rr;
+	struct ibv_sge sge;
+	struct ibv_recv_wr *bad_wr;
+	int rc;
+	/* prepare the scatter/gather entry */
+	memset(&amp;sge, 0, sizeof(sge));
+	sge.addr = (uintptr_t)res-&gt;buf;
+	sge.length = MSG_SIZE;
+	sge.lkey = res-&gt;mr-&gt;lkey;
+	/* prepare the receive work request */
+	memset(&amp;rr, 0, sizeof(rr));
+	rr.next = NULL;
+	rr.wr_id = 0;
+	rr.sg_list = &amp;sge;
+	rr.num_sge = 1;
+	/* 12 提交接收任务 */
+	rc = ibv_post_recv(res-&gt;qp, &amp;rr, &amp;bad_wr);
+	if (rc)
+		fprintf(stderr, "failed to post RR\n");
+	return rc;
+}
+
+/******************************************************************************
+* Function: resources_destroy
+*
+* Input
+* res pointer to resources structure
+*
+* Output
+* none
+*
+* Returns
+* 0 on success, 1 on failure
+*
+* Description
+* Cleanup and deallocate all resources used
+******************************************************************************/
+static int resources_destroy(struct resources *res)
+{
+	int rc = 0;
+	if (res-&gt;qp)
+		if (ibv_destroy_qp(res-&gt;qp))
+		{
+			fprintf(stderr, "failed to destroy QP\n");
+			rc = 1;
+		}
+	if (res-&gt;mr)
+		if (ibv_dereg_mr(res-&gt;mr))
+		{
+			fprintf(stderr, "failed to deregister MR\n");
+			rc = 1;
+		}
+	if (res-&gt;buf)
+		free(res-&gt;buf);
+	if (res-&gt;cq)
+		if (ibv_destroy_cq(res-&gt;cq))
+		{
+			fprintf(stderr, "failed to destroy CQ\n");
+			rc = 1;
+		}
+	if (res-&gt;pd)
+		if (ibv_dealloc_pd(res-&gt;pd))
+		{
+			fprintf(stderr, "failed to deallocate PD\n");
+			rc = 1;
+		}
+	if (res-&gt;ib_ctx)
+		if (ibv_close_device(res-&gt;ib_ctx))
+		{
+			fprintf(stderr, "failed to close device context\n");
+			rc = 1;
+		}
+	return rc;
+}
+
+/******************************************************************************
+* Function: main
+*
+* Input
+* argc number of items in argv
+* argv command line parameters
+*
+* Output
+* none
+*
+* Returns
+* 0 on success, 1 on failure
+*
+* Description
+* Main program code
+******************************************************************************/
+int main(int argc, char *argv[])
+{
+	struct resources res;
+	int rc = 1;
+	char *server_ip = NULL;
+	if (optind == argc - 1)
+		server_ip = argv[optind]; //获取客户端连接服务器的IP
+
+	/* init all of the resources, so cleanup will be easy */
+	memset(&amp;res, 0, sizeof res);
+
+	/* 1 获取设备列表 */
+	int num_devices;
+	struct ibv_device **dev_list = ibv_get_device_list(&amp;num_devices);
+	if (!dev_list || !num_devices)
+	{
+		fprintf(stderr, "failed to get IB devices\n");
+		rc = 1;
+		goto main_exit;
+	}
+
+	/* 2 打开设备，获取设备上下文 */
+	struct ibv_device *ib_dev = dev_list[0];
+	res.ib_ctx = ibv_open_device(ib_dev);
+	if (!res.ib_ctx)
+	{
+		fprintf(stderr, "failed to open device \n");
+		rc = 1;
+		goto main_exit;
+	}
+
+	/* 3 释放设备列表占用的资源 */
+	ibv_free_device_list(dev_list);
+	dev_list = NULL;
+	ib_dev = NULL;
+
+	/* 4 查询设备端口状态 */
+	if (ibv_query_port(res.ib_ctx, 1, &amp;res.port_attr))
+	{
+		fprintf(stderr, "ibv_query_port on port failed\n");
+		rc = 1;
+		goto main_exit;
+	}
+
+	/* 5 创建PD（Protection Domain） */
+	res.pd = ibv_alloc_pd(res.ib_ctx);
+	if (!res.pd)
+	{
+		fprintf(stderr, "ibv_alloc_pd failed\n");
+		rc = 1;
+		goto main_exit;
+	}
+
+	/* 6 创建CQ（Complete Queue） */
+	int cq_size = 10;
+	res.cq = ibv_create_cq(res.ib_ctx, cq_size, NULL, NULL, 0);
+	if (!res.cq)
+	{
+		fprintf(stderr, "failed to create CQ with %u entries\n", cq_size);
+		rc = 1;
+		goto main_exit;
+	}
+
+	/* 7 注册MR（Memory Region） */
+	int size = MSG_SIZE;
+	res.buf = (char *)malloc(size);
+	if (!res.buf)
+	{
+		fprintf(stderr, "failed to malloc %Zu bytes to memory buffer\n", size);
+		rc = 1;
+		goto main_exit;
+	}
+	memset(res.buf, 0, size);
+
+	int mr_flags = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE;
+	res.mr = ibv_reg_mr(res.pd, res.buf, size, mr_flags);
+	if (!res.mr)
+	{
+		fprintf(stderr, "ibv_reg_mr failed with mr_flags=0x%x\n", mr_flags);
+		rc = 1;
+		goto main_exit;
+	}
+	fprintf(stdout, "MR was registered with addr=%p, lkey=0x%x, rkey=0x%x, flags=0x%x\n",
+			res.buf, res.mr-&gt;lkey, res.mr-&gt;rkey, mr_flags);
+
+	/* 8 创建QP（Queue Pair） */
+	struct ibv_qp_init_attr qp_init_attr;
+	memset(&amp;qp_init_attr, 0, sizeof(qp_init_attr));
+	qp_init_attr.qp_type = IBV_QPT_RC;
+	qp_init_attr.sq_sig_all = 1;
+	qp_init_attr.send_cq = res.cq;
+	qp_init_attr.recv_cq = res.cq;
+	qp_init_attr.cap.max_send_wr = 1;
+	qp_init_attr.cap.max_recv_wr = 1;
+	qp_init_attr.cap.max_send_sge = 1;
+	qp_init_attr.cap.max_recv_sge = 1;
+	res.qp = ibv_create_qp(res.pd, &amp;qp_init_attr);
+	if (!res.qp)
+	{
+		fprintf(stderr, "failed to create QP\n");
+		rc = 1;
+		goto main_exit;
+	}
+	fprintf(stdout, "QP was created, QP number=0x%x\n", res.qp-&gt;qp_num);
+
+	/* 9 交换控制信息 */
+	struct cm_con_data_t local_con_data;  // 发送给远程主机的信息
+	struct cm_con_data_t remote_con_data; // 接收远程主机发送过来的信息
+	struct cm_con_data_t tmp_con_data;
+
+	local_con_data.addr = htonll((uintptr_t)res.buf);
+	local_con_data.rkey = htonl(res.mr-&gt;rkey);
+	local_con_data.qp_num = htonl(res.qp-&gt;qp_num);
+	local_con_data.lid = htons(res.port_attr.lid);
+	if (sock_sync_data(server_ip, sizeof(struct cm_con_data_t), (char *)&amp;local_con_data, (char *)&amp;tmp_con_data) &lt; 0)
+	{
+		fprintf(stderr, "failed to exchange connection data between sides\n");
+		rc = 1;
+		goto main_exit;
+	}
+	remote_con_data.addr = ntohll(tmp_con_data.addr);
+	remote_con_data.rkey = ntohl(tmp_con_data.rkey);
+	remote_con_data.qp_num = ntohl(tmp_con_data.qp_num);
+	remote_con_data.lid = ntohs(tmp_con_data.lid);
+	/* save the remote side attributes, we will need it for the post SR */
+	res.remote_props = remote_con_data;
+	fprintf(stdout, "Remote address = 0x%" PRIx64 "\n", remote_con_data.addr);
+	fprintf(stdout, "Remote rkey = 0x%x\n", remote_con_data.rkey);
+	fprintf(stdout, "Remote QP number = 0x%x\n", remote_con_data.qp_num);
+	fprintf(stdout, "Remote LID = 0x%x\n", remote_con_data.lid);
+
+	/* 10 转换QP状态 */
+	// RESET -&gt; INIT
+	struct ibv_qp_attr attr;
+	int flags;
+	memset(&amp;attr, 0, sizeof(attr));
+	attr.qp_state = IBV_QPS_INIT;
+	attr.port_num = 1; // IB 端口号
+	attr.pkey_index = 0;
+	attr.qp_access_flags = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ | IBV_ACCESS_REMOTE_WRITE;
+	flags = IBV_QP_STATE | IBV_QP_PKEY_INDEX | IBV_QP_PORT | IBV_QP_ACCESS_FLAGS;
+	rc = ibv_modify_qp(res.qp, &amp;attr, flags);
+	if (rc)
+		fprintf(stderr, "failed to modify QP state to INIT\n");
+
+	//INIT -&gt; RTR(Ready To Receive)
+	memset(&amp;attr, 0, sizeof(attr));
+	attr.qp_state = IBV_QPS_RTR;
+	attr.path_mtu = IBV_MTU_256;
+	attr.dest_qp_num = res.remote_props.qp_num;
+	attr.rq_psn = 0;
+	attr.max_dest_rd_atomic = 1;
+	attr.min_rnr_timer = 0x12;
+	attr.ah_attr.is_global = 0;
+	attr.ah_attr.dlid = res.remote_props.lid;
+	attr.ah_attr.sl = 0;
+	attr.ah_attr.src_path_bits = 0;
+	attr.ah_attr.port_num = 1;
+	flags = IBV_QP_STATE | IBV_QP_AV | IBV_QP_PATH_MTU | IBV_QP_DEST_QPN | IBV_QP_RQ_PSN | IBV_QP_MAX_DEST_RD_ATOMIC | IBV_QP_MIN_RNR_TIMER;
+	rc = ibv_modify_qp(res.qp, &amp;attr, flags);
+	if (rc)
+		fprintf(stderr, "failed to modify QP state to RTR\n");
+
+	//RTR -&gt; RTS(Ready To Send)
+	memset(&amp;attr, 0, sizeof(attr));
+	attr.qp_state = IBV_QPS_RTS;
+	attr.timeout = 0x12;
+	attr.retry_cnt = 6;
+	attr.rnr_retry = 0;
+	attr.sq_psn = 0;
+	attr.max_rd_atomic = 1;
+	flags = IBV_QP_STATE | IBV_QP_TIMEOUT | IBV_QP_RETRY_CNT | IBV_QP_RNR_RETRY | IBV_QP_SQ_PSN | IBV_QP_MAX_QP_RD_ATOMIC;
+	rc = ibv_modify_qp(res.qp, &amp;attr, flags);
+	if (rc)
+		fprintf(stderr, "failed to modify QP state to RTS\n");
+
+	int choice;
+	while (1)
+	{
+		printf("\n\n\n");
+		printf("*********************************************************************************************\n");
+		printf("* 1:RDMA_READ 2:RDMA_WRITE 3:SEND 4:RECEIVE 5:Read Local Buffer 6:Write Local Buffer 7:Exit *\n");
+		printf("*********************************************************************************************\n");
+		printf("please input your choice : ");
+		scanf("%d", &amp;choice);
+		getchar();
+		switch (choice)
+		{
+		case 1:
+			memset(res.buf, 0, MSG_SIZE);
+			post_send(&amp;res, IBV_WR_RDMA_READ);
+			if (poll_completion(&amp;res))
+			{
+				fprintf(stderr, "poll completion failed 2\n");
+			}
+			else
+			{
+				printf("Reading remote's buffer(addr:0x%x, rkey:0x%x) : %s\n", res.remote_props.addr, res.remote_props.rkey, res.buf);
+			}
+			break;
+
+		case 2:
+			memset(res.buf, 0, MSG_SIZE);
+			printf("Writing remote's buffer(addr:0x%x, rkey:0x%x) : ", res.remote_props.addr, res.remote_props.rkey);
+			fgets(res.buf, MSG_SIZE, stdin);
+			post_send(&amp;res, IBV_WR_RDMA_WRITE);
+			if (poll_completion(&amp;res))
+			{
+				fprintf(stderr, "poll completion failed 2\n");
+			}
+			else
+			{
+				printf("success\n");
+			}
+			break;
+
+		case 3:
+			memset(res.buf, 0, MSG_SIZE);
+			printf("Sending : ");
+			fgets(res.buf, MSG_SIZE, stdin);
+			post_send(&amp;res, IBV_WR_SEND);
+			if (poll_completion(&amp;res))
+			{
+				fprintf(stderr, "poll completion failed 2\n");
+			}
+			else
+			{
+				printf("success\n");
+			}
+			break;
+
+		case 4:
+			printf("receiving: ");
+			post_receive(&amp;res);
+			if (poll_completion(&amp;res))
+			{
+				fprintf(stderr, "poll completion failed 2\n");
+			}
+			else
+			{
+				printf("%s", res.buf);
+			}
+			break;
+
+		case 5:
+			printf("Reading local buffer(addr:0x%x): %s\n", (uintptr_t)res.buf, res.buf);
+			break;
+
+		case 6:
+			memset(res.buf, 0, MSG_SIZE);
+			printf("Writing local buffer(addr:0x%x) : %s", (uintptr_t)res.buf, res.buf);
+			fgets(res.buf, MSG_SIZE, stdin);
+			break;
+
+		case 7:
+			goto main_exit;
+
+		default:
+			printf("invalid choice.\n");
+			break;
+		}
+	}
+
+	rc = 0;
+main_exit:
+	if (resources_destroy(&amp;res))
+	{
+		fprintf(stderr, "failed to destroy resources\n");
+		rc = 1;
+	}
+	fprintf(stdout, "\ntest result is %d\n", rc);
+	return rc;
+}
+</code></pre>
+
+<h2 id="参考材料">参考材料</h2>
+
+<ul>
+  <li><a href="http://www.mellanox.com/related-docs/prod_software/RDMA_Aware_Programming_user_manual.pdf">官方文档</a></li>
+  <li><a href="https://www.rdmamojo.com">博客</a></li>
+</ul>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>

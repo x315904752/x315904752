@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>VLAN间路由实验 | wu-kan</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="VLAN间路由实验" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="实验题目" />
+<meta property="og:description" content="实验题目" />
+<link rel="canonical" href="http://localhost:4000/_posts/2019-05-23-VLAN%E9%97%B4%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/" />
+<meta property="og:url" content="http://localhost:4000/_posts/2019-05-23-VLAN%E9%97%B4%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/" />
+<meta property="og:site_name" content="wu-kan" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-05-23T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/_posts/2019-05-23-VLAN%E9%97%B4%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/","headline":"VLAN间路由实验","dateModified":"2019-05-23T00:00:00+08:00","datePublished":"2019-05-23T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/_posts/2019-05-23-VLAN%E9%97%B4%E8%B7%AF%E7%94%B1%E5%AE%9E%E9%AA%8C/"},"description":"实验题目","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1"
+/>
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=utf-8"
+/>
+<link
+  rel="alternate"
+  href="/feed.xml"
+  title="RSS"
+  type="application/rss+xml"
+/>
+
+  
+  <link
+  rel="apple-touch-icon-precomposed"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320"
+/>
+<link
+  rel="shortcut
+  icon"
+  href="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=32"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/gh/poole/lanyon@v1.1.0/public/css/poole.min.css,gh/poole/lanyon@v1.1.0/public/css/lanyon.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+/>
+
+  
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@2.4/static/pio.min.css"
+/>
+<script
+  async="async"
+  src="https://cdn.jsdelivr.net/combine/gh/Dreamer-Paul/Pio@2.4/static/l2d.min.js,gh/Dreamer-Paul/Pio@2.4/static/pio.min.js"
+  onload='
+      let pio_container = document.createElement("div");
+      pio_container.classList.add("pio-container");
+      pio_container.classList.add("right");
+      pio_container.style.bottom = "-2rem";
+      pio_container.style.zIndex = "1";
+      document.body.insertAdjacentElement("beforeend", pio_container);
+      let pio_action = document.createElement("div");
+      pio_action.classList.add("pio-action");
+      pio_container.insertAdjacentElement("beforeend", pio_action);
+      let pio_canvas = document.createElement("canvas");
+      pio_canvas.id = "pio";
+      pio_canvas.style.width = "14rem";
+      pio_canvas.width = "600";
+      pio_canvas.height = "800";
+      pio_container.insertAdjacentElement("beforeend", pio_canvas);
+      let pio = new Paul_Pio({
+        "mode": "fixed",
+        "hidden": true,
+        "night": "for(let i=7; i<16; ++i) if(document.body.classList.contains(`theme-base-0`+i.toString(16))) { document.body.classList.remove(`theme-base-0`+i.toString(16)); document.body.classList.add(`theme-base-0`+((i-6)%9+7).toString(16)); break; }",
+        "content": {
+          "link": ["https://jekyll-theme-WuK.wu-kan.cn"],
+          "skin": ["要换成我的朋友吗？", "让她放个假吧~"],
+          "hidden": true,
+          "custom": [{
+            "selector": "a",
+            "type": "link",
+          }, {
+            "selector": ".sidebar-toggle",
+            "text": "打开侧边栏叭~"
+          }, {
+            "selector": ".effect-info",
+            "text": "哇，你发现了什么！"
+          }, {
+            "selector": "#sidebar-search-input",
+            "text": "想搜索什么呢？很多干货哦！"
+          }, {
+            "selector": "#toc",
+            "text": "这是目录~"
+          }, {
+            "selector": ".page-title",
+            "text": "这是标题~"
+          }, {
+            "selector": ".v",
+            "text": "评论没有审核，要对自己的发言负责哦~"
+          }]
+        },
+        "model": [
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/33/model.2018.bls-winter.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/platelet-2/model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/xiaomai/xiaomai.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/mashiro/seifuku.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/imuncle/live2d/model/Violet/14.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/Kobayaxi/Kobayaxi.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/mikoto/mikoto.model.json",
+          "https:\/\/cdn.jsdelivr.net/gh/xiaoski/live2d_models_collection/uiharu/uiharu.model.json"]
+      });'
+></script>
+
+  
+  <script
+  src='https://zz.bdstatic.com/linksubmit/push.js'
+  async="async"
+></script>
+
+  
+  <script
+  async="async"
+  src="https://www.googletagmanager.com/gtag/js?id=UA-163543967-1"
+  onload="
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-163543967-1');"
+></script>
+
+  
+  <style>
+  .wrap {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: ease-in-out;
+    min-height: 100%;
+    display: inline-block;
+    background-size: 100% auto;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/74559485_p1.webp);
+  }
+  @media (min-aspect-ratio: 2400/1850) {
+    .wrap {
+      background-image: url(https://Mizuno-Ai.wu-kan.cn/pixiv/71932901_p0.webp);
+    }
+  }
+  .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    width: calc(100% - 14rem);
+    background-size: calc(100% - 14rem) auto;
+    left: 14rem;
+  }
+  .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    left: 0;
+  }
+</style>
+
+  
+  <style>
+  html,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .sidebar {
+    font-family: PingFang SC, Menlo, Monaco, "Courier New", Microsoft JhengHei, monospace;
+  }
+</style>
+
+  
+  <style>
+  img {
+    display: inline-block;
+    margin: 0;
+  }
+</style>
+
+  
+  <style>
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(45deg, Cyan 0%, Magenta 50%, Yellow 100%);
+  }
+</style>
+
+  
+  <style>
+  ::selection {
+    color: White;
+    background: Black;
+  }
+</style>
+
+  
+</head>
+
+<body
+  class="theme-base-07 layout-reverse sidebar-overlay">
+  
+  
+  
+  <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+  <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox"
+     />
+  <!-- Toggleable sidebar -->
+  <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar-item">
+      <div class="effect effect-right_to_left">
+        <img class="effect-img" src="https://gravatar.loli.net/avatar/289efba375d63424de3c49569c446744?s=320" alt="img" />
+        <div class="effect-info">
+          SYSU超算17级在读<br/>
+永远喜欢水野爱<br/>
+田宫例四驱车<br/>
+ASC<br/>
+<a href="mailto:i@wu-kan.cn">
+  <i class="fas fa-envelope"></i>
+</a>
+<a href="https://github.com/wu-kan">
+  <i class="fab fa-github"></i>
+</a>
+<a href="https://codeforces.com/profile/WuK">
+  <i class="fas fa-chart-bar"></i>
+</a>
+<a href="https://vjudge.net/user/WuK">
+  <i class="fas fa-smile"></i>
+</a>
+<a href="https://www.zhihu.com/people/wu.kan/activities">
+  <i class="fab fa-zhihu"></i>
+</a>
+<iframe
+  src="https://music.163.com/outchain/player?type=0&id=155059595&auto=0&height=32"
+  width=100%
+  height=52
+  frameborder="no"
+  border="0"
+  marginwidth="0"
+  marginheight="0"
+></iframe>
+
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      
+      <a class="sidebar-nav-item" href="/">
+        <i class="fas fa-home fa-fw"></i> 首页
+      </a>
+      
+      <a class="sidebar-nav-item" href="/comments/">
+        <i class="fas fa-comments fa-fw"></i> 留言
+      </a>
+      
+      <a class="sidebar-nav-item" href="/tags/">
+        <i class="fas fa-tags fa-fw"></i> 标签
+      </a>
+      
+      <a class="sidebar-nav-item" href="/archive/">
+        <i class="fas fa-archive fa-fw"></i> 归档
+      </a>
+      
+      <a class="sidebar-nav-item" href="/merger/">
+        <i class="fas fa-coffee fa-fw"></i> 打赏
+      </a>
+      
+    </nav>
+    <div class="sidebar-item">
+      
+      <div>
+        <style>
+  #sidebar-search-input {
+    background: none;
+    border: none;
+    color: White;
+    width: 100%;
+  }
+  #sidebar-search-results-container {
+    overflow: auto auto;
+    max-height: 50vh;
+  }
+</style>
+<input
+  id="sidebar-search-input"
+  placeholder="搜索博文"
+/>
+<ol
+  id="sidebar-search-results-container"
+></ol>
+<script
+  src='https://cdn.jsdelivr.net/npm/simple-jekyll-search/dest/simple-jekyll-search.min.js'
+  async='async'
+  onload='
+    SimpleJekyllSearch({
+      json: "/assets/simple-jekyll-search/search.json",
+      searchInput: document.getElementById("sidebar-search-input"),
+      resultsContainer: document.getElementById("sidebar-search-results-container"),
+      searchResultTemplate: `<li><a href="{url}">{title}</a></li>`,
+      limit: 999,
+      fuzzy: true
+    })'
+></script>
+
+      </div>
+      
+      
+      <style>
+  .sidebar-checkbox {
+    display: none;
+  }
+  .sidebar-toggle {
+    position: fixed;
+  }
+</style>
+
+      
+      <style>
+  .effect {
+    margin: 1rem;
+    perspective: 900px;
+  }
+  .effect-info {
+    text-align: center;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+  .effect-img {
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  .effect-img:before {
+    position: absolute;
+    display: block;
+  }
+  .effect-right_to_left .effect-img {
+    transform-origin: 0% 50%;
+  }
+  .effect-right_to_left:hover .effect-img {
+    transform: rotate3d(0, 1, 0, -180deg);
+  }
+</style>
+
+      
+      <style>
+  #toc {
+    overflow: auto auto;
+    max-height:50vh;
+  }
+</style>
+<aside id="toc">
+  目录
+</aside>
+<script
+  defer='defer'
+  src='https://cdn.jsdelivr.net/npm/html-contents/html-contents.min.js'
+  onload="htmlContents('#toc', {listType: 'o', filter: function(arr) {return !arr.matches('.masthead-title')}})"
+></script>
+
+      
+      <div>
+  <i class="fas fa-cog fa-spin fa-fw"></i>
+  <span id="run_time_day">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>天
+  <span id="run_time_hour">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>时
+  <span id="run_time_minute">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>分
+  <span id="run_time_second">
+    <i class="fas fa-spinner fa-pulse"></i>
+  </span>秒
+  <script>
+    setInterval(function (BirthDay) {
+      function setzero(i) {
+        if (i < 10) return "0" + i;
+        return i;
+      }
+      BirthDay = new Date(BirthDay);
+      today = new Date();
+      timeold = (today.getTime() - BirthDay.getTime());
+      sectimeold = timeold / 1000;
+      secondsold = Math.floor(sectimeold);
+      msPerDay = 24 * 60 * 60 * 1000;
+      e_daysold = timeold / msPerDay;
+      daysold = Math.floor(e_daysold);
+      e_hrsold = (e_daysold - daysold) * 24;
+      hrsold = Math.floor(e_hrsold);
+      e_minsold = (e_hrsold - hrsold) * 60;
+      minsold = Math.floor((e_hrsold - hrsold) * 60);
+      seconds = Math.floor((e_minsold - minsold) * 60);
+      document.getElementById("run_time_day").innerHTML = daysold;
+      document.getElementById("run_time_hour").innerHTML = setzero(hrsold);
+      document.getElementById("run_time_minute").innerHTML = setzero(minsold);
+      document.getElementById("run_time_second").innerHTML = setzero(seconds);
+    }, 1000, "10/04/2017 11:03:56") // 这是我第一篇CSDN博客的时间
+  </script>
+</div>
+
+      
+      <div>
+  <div>
+    <i class="fas fa-eye fa-fw"></i>
+    <span id="busuanzi_value_page_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>次
+  </div>
+  <div>
+    <i class="fas fa-paw fa-fw"></i>
+    <span id="busuanzi_value_site_pv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>枚
+  </div>
+  <div>
+    <i class="fas fa-user-friends fa-fw"></i>
+    <span id="busuanzi_value_site_uv">
+      <i class="fas fa-spinner fa-pulse"></i>
+    </span>人
+  </div>
+  <script
+    src='https://cdn.jsdelivr.net/npm/busuanzi'
+    async='async'
+  ></script>
+</div>
+
+      
+      <div>
+  <i class="fas fa-copyright fa-fw"></i>
+  2017-2020 WuK
+</div>
+
+      
+      <div>
+  <i class="fas fa-thumbs-up fa-fw"></i>
+  <a href="https://jekyll-theme-WuK.wu-kan.cn">
+    jekyll-theme-WuK
+  </a>
+</div>
+
+      
+      <div>
+  <i class="fas fa-info-circle fa-fw"></i>
+  <a href="http://beian.miit.gov.cn">
+    粤ICP备20024947号
+  </a>
+</div>
+
+      
+      
+    </div>
+  </div>
+  <!-- Wrap is the content to shift when toggling the sidebar. We wrap the content to avoid any CSS collisions with our real content. -->
+  
+  <div class="wrap">
+    
+<style>
+  pre {
+    max-height: 50vh;
+    overflow: auto;
+  }
+</style>
+
+
+<style>
+  @media (min-width: 56em) {
+    .container {
+      max-width: 66.6%;
+    }
+  }
+</style>
+
+
+<style>
+  .masthead,
+  .container.content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: 0 0 .75rem rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    animation-duration: 2s;
+    animation-name: fadeIn;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/combine/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css,npm/prismjs/plugins/toolbar/prism-toolbar.min.css,gh/PrismJS/prism-themes@1955cfef6953b3a59e66016e8a1e016b45d6cc79/themes/prism-nord.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/prismjs/components/prism-core.min.js,npm/prismjs/plugins/autoloader/prism-autoloader.min.js,npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js,npm/prismjs/plugins/toolbar/prism-toolbar.min.js"
+  defer="defer"
+  onload='
+    Prism.plugins.autoloader.languages_path = "https:\/\/cdn.jsdelivr.net/npm/prismjs/components/";
+    for(let x=document.getElementsByTagName("pre"), i=0;i<x.length;i++)
+    {
+      x[i].classList.add("line-numbers");
+    }
+    Prism.plugins.toolbar.registerButton("select-code", function (env) {
+      let button = document.createElement("button");
+      button.innerHTML = "select this " + env.language;
+      button.addEventListener("click", function () {
+        if (document.body.createTextRange) {
+          let range = document.body.createTextRange();
+          range.moveToElementText(env.element);
+          range.select();
+        } else if (window.getSelection) {
+          let selection = window.getSelection();
+          let range = document.createRange();
+          range.selectNodeContents(env.element);
+          selection.removeAllRanges();
+            selection.addRange(range);
+        }
+      });
+      return button;
+    })'
+></script>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+/>
+<script
+  src="https://cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/mathtex-script-type.min.js,npm/katex/dist/contrib/auto-render.min.js"
+  defer="defer"
+  onload='renderMathInElement(document.body, { delimiters: [{ left: "$", right: "$", display: false }] })'
+></script>
+
+
+<style>
+  pre.language-mermaid,
+  code.language-mermaid {
+    display: none;
+  }
+</style>
+<script
+  src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+  defer="defer"
+  onload='
+  for(let x=document.getElementsByClassName("language-mermaid"), i=0;i<x.length;i++)
+    if(x[i].nodeName=="CODE")
+    {
+      let m = document.createElement("div");
+      m.classList.add("mermaid");
+      m.textContent = x[i].textContent;
+      x[i].parentNode.insertAdjacentElement("beforebegin", m);
+    }'
+></script>
+
+
+
+<div class="masthead">
+  <h3 class="container masthead-title">
+    
+    VLAN间路由实验
+    <a href="http://localhost:4000/" title="Home">
+      <small>
+        wu-kan
+      </small>
+    </a>
+    
+  </h3>
+</div>
+
+<div class="container content">
+  <div class="post">
+  <span class="post-date">
+    
+    <i class="fas fa-calendar-day fa-fw"></i>
+    23 May 2019
+    
+    
+    <i class="fas fa-file-word fa-fw"></i>
+    13723字
+    
+    
+    <i class="fas fa-clock fa-fw"></i>
+    46分
+    
+    
+    
+    <i class="fas fa-tag fa-fw"></i>
+    计算机网络
+    
+    <br/>
+<i class="fas fa-coffee fa-fw"></i>
+<a href="/merger/">如果这篇博客帮助到你，可以请我喝一杯咖啡~</a>
+<br/>
+<i class="fab fa-creative-commons-by fa-fw"></i>
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">CC BY 4.0</a>（除特别声明或转载文章外）
+
+    
+  </span>
+  <h2 id="实验题目">实验题目</h2>
+
+<p>VLAN 间路由实验</p>
+
+<h2 id="实验目的">实验目的</h2>
+
+<p>掌握 VLAN 间静态路由的配置和使用方法，熟悉三层交换机的配置方法。</p>
+
+<h2 id="注意事项">注意事项</h2>
+
+<ul>
+  <li>一开始要重启电脑和路由器交换机(#reload)</li>
+  <li>参与 ping 的实验网网卡如果要设置默认网关，则需要删除校园网的默认网关</li>
+  <li>注意关闭 windows 防火墙。</li>
+  <li>如果连不上路由器交换机，要查看前面的 console 线是否接好或者进行清理线头(见 00、实验基本操作)</li>
+</ul>
+
+<h2 id="实验命令">实验命令</h2>
+
+<h3 id="交换机配置-vlan">交换机配置 VLAN</h3>
+
+<pre><code class="language-bash">     (config)#vlan 3 				!建立VLAN 3
+     (config)#interface f0/2
+     (config-if)#switchport access vlan 3	！把接口f0/2配置为vlan3主机接口
+     (config)#interface f0/4
+     (config-if)#switchport mode trunk	     ！把接口f0/4配置为主干接口
+</code></pre>
+
+<h3 id="路由器配置子接口">路由器配置子接口</h3>
+
+<pre><code class="language-bash">    (config)#interface f0/2
+        (config-if)#no ip address   			!删除F0/2已配置的IP地址
+        (config-if)#exit
+        (config)#interface f0/2.30            !定义子接口f0/2.30
+    (config-if)#encapsulation dot1q 30    !用802.1Q标准封装成VLAN帧(VLAN ID为30)
+    (config-if)#ip address 192.168.30.23 255.255.255.0   !配置子接口的IP地址
+
+        (config)#interface f0/2.40         		!定义子接口f0/2.40
+</code></pre>
+
+<h3 id="配置虚接口">配置虚接口</h3>
+
+<pre><code class="language-bash">  (config)#int vlan 40							  	 ！进入虚接口模式
+        (config-vlan)#ip address 192.168.30.1 255.255.255.0       ！配置vlan40的IP地址
+</code></pre>
+
+<h3 id="显示信息">显示信息</h3>
+
+<pre><code class="language-bash">     #show interface [f0/1]       ! 显示所有接口(或接口f0/1)的详细信息
+         #show ip interface [f0/1]    ! 显示所有接口(或接口f0/1)的简略信息
+                                      ! f0/1 is up(物理层正确，即接线正确)，line protocol is
+                                        up(数据链路层正确，有类似KeepAlive信号)
+         #show ip interface brief     ! 显示所有接口的简略信息
+         #show ip route               ! 显示路由表
+         #show vlan                   ! 显示所有VLAN接口
+         #show running-config         ! 显示当前配置文件
+</code></pre>
+
+<h2 id="实验任务">实验任务</h2>
+
+<h3 id="完成下图多臂路由实验通过路由器的多个以太网接口实现二层交换机的-vlan-间路由-要求所有主机之间可以相互-ping-通配置路由器之前-pc1-尝试-ping-其它-pc截屏配置路由器后再用-pc1-尝试-ping-其它主机截屏注意pc-要配置默认网关">完成下图“多臂路由实验”(通过路由器的多个以太网接口实现二层交换机的 VLAN 间路由), 要求所有主机之间可以相互 ping 通。配置路由器之前 PC1 尝试 ping 其它 PC，截屏，配置路由器后再用 PC1 尝试 ping 其它主机，截屏。注意：PC 要配置默认网关</h3>
+
+<h4 id="1a配置路由器的接口-ip-地址之前显示-router1-的路由表并截屏pc1-ping-其它-pc-并截屏ping--n-1-ip-地址">1a、配置路由器的接口 IP 地址之前显示 Router1 的路由表并截屏，PC1 Ping 其它 PC 并截屏(ping -n 1 IP 地址)</h4>
+
+<p><img src="/assets/image/2019-05-23-1.jpg" alt="1" />
+<img src="/assets/image/2019-05-23-2.jpg" alt="2" /></p>
+
+<h4 id="1b配置路由器的接口之后显示-router1-的路由表并截屏pc1-ping-其它-pc-并截屏">1b、配置路由器的接口之后显示 Router1 的路由表并截屏，PC1 Ping 其它 PC 并截屏</h4>
+
+<p><img src="/assets/image/2019-05-23-3.jpg" alt="3" />
+<img src="/assets/image/2019-05-23-4.jpg" alt="4" /></p>
+
+<h4 id="1c写出-pc3-ping-pc4-经过的设备-写法举例pc1-switch1-router1-switch1-pc2">1c、写出 PC3 ping PC4 经过的设备 写法举例：PC1-&gt;Switch1-&gt;Router1-&gt;Switch1-&gt;PC2</h4>
+
+<p>PC3-&gt;Switch2-&gt;Switch1-&gt;Rounter1-&gt;Switch1-&gt;Switch2-&gt;PC4</p>
+
+<h4 id="1d把以下内容存入文件-step1txta显示-switch1-的-vlan-b-显示-switch1-的配置c显示-switch2-的-vland-switch2-的配置-e显示-router1-的路由表f-显示-router1-的接口简略g-显示-router1-的配置">1d、把以下内容存入文件 step1.txt:(A)显示 Switch1 的 VLAN； (B) 显示 Switch1 的配置；(C)显示 Switch2 的 VLAN；(D) Switch2 的配置; (E)显示 Router1 的路由表；(F) 显示 Router1 的接口（简略）；(G) 显示 Router1 的配置]</h4>
+
+<pre><code class="language-bash">Switch 1 show vlan
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -----------------------------------
+   1 VLAN0001                         STATIC    Gi0/1, Gi0/2, Gi0/3, Gi0/4
+                                                Gi0/5, Gi0/6, Gi0/7, Gi0/8
+                                                Gi0/9, Gi0/11, Gi0/12, Gi0/13
+                                                Gi0/14, Gi0/15, Gi0/16, Gi0/17
+                                                Gi0/18, Gi0/19, Gi0/21, Gi0/22
+                                                Gi0/25, Gi0/26, Gi0/27, Gi0/28
+  10 VLAN0010                         STATIC    Gi0/6, Gi0/10, Gi0/23
+  20 VLAN0020                         STATIC    Gi0/6, Gi0/20, Gi0/24
+
+
+
+Switch 1 show running-config
+
+Building configuration...
+Current configuration : 1470 bytes
+
+!
+version RGOS 10.4(2b12)p2 Release(180357)(Mon Dec  1 17:42:40 CST 2014 -ngcf64)
+hostname 19-S5750-1
+!
+!
+!
+!
+!
+!
+!
+nfpp
+!
+!
+vlan 1
+!
+vlan 10
+!
+vlan 20
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet 0/1
+!
+interface GigabitEthernet 0/2
+!
+interface GigabitEthernet 0/3
+!
+interface GigabitEthernet 0/4
+!
+interface GigabitEthernet 0/5
+!
+interface GigabitEthernet 0/6
+ switchport mode trunk
+!
+interface GigabitEthernet 0/7
+!
+interface GigabitEthernet 0/8
+!
+interface GigabitEthernet 0/9
+!
+interface GigabitEthernet 0/10
+ switchport access vlan 10
+!
+interface GigabitEthernet 0/11
+!
+interface GigabitEthernet 0/12
+!
+interface GigabitEthernet 0/13
+!
+interface GigabitEthernet 0/14
+!
+interface GigabitEthernet 0/15
+!
+interface GigabitEthernet 0/16
+!
+interface GigabitEthernet 0/17
+!
+interface GigabitEthernet 0/18
+!
+interface GigabitEthernet 0/19
+!
+interface GigabitEthernet 0/20
+ switchport access vlan 20
+!
+interface GigabitEthernet 0/21
+!
+interface GigabitEthernet 0/22
+!
+interface GigabitEthernet 0/23
+ switchport access vlan 10
+!
+interface GigabitEthernet 0/24
+ switchport access vlan 20
+!
+interface GigabitEthernet 0/25
+!
+interface GigabitEthernet 0/26
+!
+interface GigabitEthernet 0/27
+!
+interface GigabitEthernet 0/28
+!
+interface VLAN 10
+ no ip proxy-arp
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ login
+ password b402
+!
+!
+end
+
+
+
+
+VLAN2
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -----------------------------------
+   1 VLAN0001                         STATIC    Gi0/1, Gi0/2, Gi0/3, Gi0/4
+                                                Gi0/5, Gi0/6, Gi0/7, Gi0/8
+                                                Gi0/9, Gi0/11, Gi0/12, Gi0/13
+                                                Gi0/14, Gi0/15, Gi0/16, Gi0/17
+                                                Gi0/18, Gi0/19, Gi0/21, Gi0/22
+                                                Gi0/23, Gi0/24, Gi0/25, Gi0/26
+                                                Gi0/27, Gi0/28
+  10 VLAN0010                         STATIC    Gi0/6, Gi0/10
+  20 VLAN0020                         STATIC    Gi0/6, Gi0/20
+
+Building configuration...
+Current configuration : 1374 bytes
+
+!
+version RGOS 10.4(2b12)p2 Release(180357)(Mon Dec  1 17:42:40 CST 2014 -ngcf64)
+hostname 19-S5750-2
+!
+!
+!
+!
+!
+!
+!
+nfpp
+!
+!
+vlan 1
+!
+vlan 10
+!
+vlan 20
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet 0/1
+!
+interface GigabitEthernet 0/2
+!
+interface GigabitEthernet 0/3
+!
+interface GigabitEthernet 0/4
+!
+interface GigabitEthernet 0/5
+!
+interface GigabitEthernet 0/6
+ switchport mode trunk
+!
+interface GigabitEthernet 0/7
+!
+interface GigabitEthernet 0/8
+!
+interface GigabitEthernet 0/9
+!
+interface GigabitEthernet 0/10
+ switchport access vlan 10
+!
+interface GigabitEthernet 0/11
+!
+interface GigabitEthernet 0/12
+!
+interface GigabitEthernet 0/13
+!
+interface GigabitEthernet 0/14
+!
+interface GigabitEthernet 0/15
+!
+interface GigabitEthernet 0/16
+!
+interface GigabitEthernet 0/17
+!
+interface GigabitEthernet 0/18
+!
+interface GigabitEthernet 0/19
+!
+interface GigabitEthernet 0/20
+ switchport access vlan 20
+!
+interface GigabitEthernet 0/21
+!
+interface GigabitEthernet 0/22
+!
+interface GigabitEthernet 0/23
+!
+interface GigabitEthernet 0/24
+!
+interface GigabitEthernet 0/25
+!
+interface GigabitEthernet 0/26
+!
+interface GigabitEthernet 0/27
+!
+interface GigabitEthernet 0/28
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ login
+ password b402
+!
+!
+end
+
+
+
+
+
+router1 show ip route
+Codes:  C - connected, S - static, R - RIP, B - BGP
+        O - OSPF, IA - OSPF inter area
+        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+        E1 - OSPF external type 1, E2 - OSPF external type 2
+        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+        ia - IS-IS inter area, * - candidate default
+
+Gateway of last resort is no set
+C    192.168.10.0/24 is directly connected, GigabitEthernet 0/0
+C    192.168.10.254/32 is local host.
+C    192.168.20.0/24 is directly connected, GigabitEthernet 0/1
+C    192.168.20.254/32 is local host.
+
+Router1 show ip interface brief
+Interface                        IP-Address(Pri)      IP-Address(Sec)      Status                 Protocol
+Serial 2/0                       no address           no address           up                     down
+Serial 3/0                       no address           no address           down                   down
+GigabitEthernet 0/0              192.168.10.254/24    no address           up                     up
+GigabitEthernet 0/1              192.168.20.254/24    no address           up                     up
+VLAN 1                           no address           no address           up                     down
+
+
+Router1 show ip running-config
+Building configuration...
+Current configuration : 1853 bytes
+
+!
+version RGOS 10.4(3b23) Release(176514)(Mon Jul 28 18:19:31 CST 2014 -ngcf62)
+webmaster level 0 username admin password 7 073f07221c1c
+!
+!
+!
+!
+!
+!
+diffserv domain default
+!
+!
+!
+!
+cwmp
+!
+!
+!
+!
+!
+!
+vlan 1
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+control-plane protocol
+ no acpp
+!
+control-plane manage
+ no port-filter
+ no arp-car
+ no acpp
+!
+control-plane data
+ no glean-car
+ no acpp
+!
+!
+!
+!
+enable service web-server http
+enable service web-server https
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Serial 2/0
+ encapsulation HDLC
+!
+interface Serial 3/0
+ encapsulation HDLC
+ clock rate 64000
+!
+interface FastEthernet 1/0
+!
+interface FastEthernet 1/1
+!
+interface FastEthernet 1/2
+!
+interface FastEthernet 1/3
+!
+interface FastEthernet 1/4
+!
+interface FastEthernet 1/5
+!
+interface FastEthernet 1/6
+!
+interface FastEthernet 1/7
+!
+interface FastEthernet 1/8
+!
+interface FastEthernet 1/9
+!
+interface FastEthernet 1/10
+!
+interface FastEthernet 1/11
+!
+interface FastEthernet 1/12
+!
+interface FastEthernet 1/13
+!
+interface FastEthernet 1/14
+!
+interface FastEthernet 1/15
+!
+interface FastEthernet 1/16
+!
+interface FastEthernet 1/17
+!
+interface FastEthernet 1/18
+!
+interface FastEthernet 1/19
+!
+interface FastEthernet 1/20
+!
+interface FastEthernet 1/21
+!
+interface FastEthernet 1/22
+!
+interface FastEthernet 1/23
+!
+interface GigabitEthernet 0/0
+ ip address 192.168.10.254 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet 0/1
+ ip address 192.168.20.254 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface VLAN 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ref parameter 75 140
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+!
+End
+</code></pre>
+
+<h3 id="参照上面的实验命令的子接口命令或实验书34-单臂路由通过路由器的单个以太网接口实现二层交换机的-vlan-间路由完成下图实验要求所有主机之间可以相互-ping-通">参照上面的[实验命令]的子接口命令或实验书“3.4 单臂路由”(通过路由器的单个以太网接口实现二层交换机的 VLAN 间路由)完成下图实验。要求所有主机之间可以相互 ping 通</h3>
+
+<h4 id="2apc2-ping-其它-pc-后截屏">2a、PC2 Ping 其它 PC 后截屏</h4>
+
+<p><img src="/assets/image/2019-05-23-5.jpg" alt="5" /></p>
+
+<h4 id="2b显示-router1-的路由表">2b、显示 Router1 的路由表]</h4>
+
+<p><img src="/assets/image/2019-05-23-6.jpg" alt="6" /></p>
+
+<h4 id="2c把以下内容存入文件-step2txt1显示-switch1-的-vlan2-显示-switch1-的配置3显示-router1-的路由表4-显示-router1-的接口简略5-显示-router1-的配置">2c、把以下内容存入文件 step2.txt:(1)显示 Switch1 的 VLAN；(2) 显示 Switch1 的配置；(3)显示 Router1 的路由表；(4) 显示 Router1 的接口(简略)；(5) 显示 Router1 的配置]</h4>
+
+<pre><code class="language-bash">Switch1 show vlan
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -----------------------------------
+   1 VLAN0001                         STATIC    Gi0/1, Gi0/2, Gi0/3, Gi0/4
+                                                Gi0/5, Gi0/6, Gi0/7, Gi0/8
+                                                Gi0/9, Gi0/11, Gi0/12, Gi0/13
+                                                Gi0/14, Gi0/15, Gi0/16, Gi0/17
+                                                Gi0/18, Gi0/19, Gi0/21, Gi0/22
+                                                Gi0/23, Gi0/24, Gi0/25, Gi0/26
+                                                Gi0/27, Gi0/28
+  10 VLAN0010                         STATIC    Gi0/6, Gi0/10, Gi0/24
+  20 VLAN0020                         STATIC    Gi0/6, Gi0/20, Gi0/24
+
+Switch1 show runnin-config
+Building configuration...
+Current configuration : 1438 bytes
+
+!
+version RGOS 10.4(2b12)p2 Release(180357)(Mon Dec  1 17:42:40 CST 2014 -ngcf64)
+hostname 19-S5750-1
+!
+!
+!
+!
+!
+!
+!
+nfpp
+!
+!
+vlan 1
+!
+vlan 10
+!
+vlan 20
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet 0/1
+!
+interface GigabitEthernet 0/2
+!
+interface GigabitEthernet 0/3
+!
+interface GigabitEthernet 0/4
+!
+interface GigabitEthernet 0/5
+!
+interface GigabitEthernet 0/6
+ switchport mode trunk
+!
+interface GigabitEthernet 0/7
+!
+interface GigabitEthernet 0/8
+!
+interface GigabitEthernet 0/9
+!
+interface GigabitEthernet 0/10
+ switchport access vlan 10
+!
+interface GigabitEthernet 0/11
+!
+interface GigabitEthernet 0/12
+!
+interface GigabitEthernet 0/13
+!
+interface GigabitEthernet 0/14
+!
+interface GigabitEthernet 0/15
+!
+interface GigabitEthernet 0/16
+!
+interface GigabitEthernet 0/17
+!
+interface GigabitEthernet 0/18
+!
+interface GigabitEthernet 0/19
+!
+interface GigabitEthernet 0/20
+ switchport access vlan 20
+!
+interface GigabitEthernet 0/21
+!
+interface GigabitEthernet 0/22
+!
+interface GigabitEthernet 0/23
+!
+interface GigabitEthernet 0/24
+ switchport mode trunk
+!
+interface GigabitEthernet 0/25
+!
+interface GigabitEthernet 0/26
+!
+interface GigabitEthernet 0/27
+!
+interface GigabitEthernet 0/28
+!
+interface VLAN 10
+ no ip proxy-arp
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ login
+ password b402
+!
+!
+end
+
+router1 show ip route
+Codes:  C - connected, S - static, R - RIP, B - BGP
+        O - OSPF, IA - OSPF inter area
+        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+        E1 - OSPF external type 1, E2 - OSPF external type 2
+        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+        ia - IS-IS inter area, * - candidate default
+
+Gateway of last resort is no set
+C    192.168.10.0/24 is directly connected, GigabitEthernet 0/0.10
+C    192.168.10.254/32 is local host.
+C    192.168.20.0/24 is directly connected, GigabitEthernet 0/0.20
+C    192.168.20.254/32 is local host.
+
+Router1 show ip interface brief
+Interface                        IP-Address(Pri)      IP-Address(Sec)      Status                 Protocol
+Serial 2/0                       no address           no address           up                     down
+Serial 3/0                       no address           no address           down                   down
+GigabitEthernet 0/0.20           192.168.20.254/24    no address           up                     up
+GigabitEthernet 0/0.10           192.168.10.254/24    no address           up                     up
+GigabitEthernet 0/0              no address           no address           up                     down
+GigabitEthernet 0/1              no address           no address           down                   down
+VLAN 1                           no address           no address           up                     down
+
+Router1 show running-config
+Building configuration...
+Current configuration : 1977 bytes
+
+!
+version RGOS 10.4(3b23) Release(176514)(Mon Jul 28 18:19:31 CST 2014 -ngcf62)
+webmaster level 0 username admin password 7 073f07221c1c
+!
+!
+!
+!
+!
+!
+diffserv domain default
+!
+!
+!
+!
+cwmp
+!
+!
+!
+!
+!
+!
+vlan 1
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+control-plane protocol
+ no acpp
+!
+control-plane manage
+ no port-filter
+ no arp-car
+ no acpp
+!
+control-plane data
+ no glean-car
+ no acpp
+!
+!
+!
+!
+enable service web-server http
+enable service web-server https
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Serial 2/0
+ encapsulation HDLC
+!
+interface Serial 3/0
+ encapsulation HDLC
+ clock rate 64000
+!
+interface FastEthernet 1/0
+!
+interface FastEthernet 1/1
+!
+interface FastEthernet 1/2
+!
+interface FastEthernet 1/3
+!
+interface FastEthernet 1/4
+!
+interface FastEthernet 1/5
+!
+interface FastEthernet 1/6
+!
+interface FastEthernet 1/7
+!
+interface FastEthernet 1/8
+!
+interface FastEthernet 1/9
+!
+interface FastEthernet 1/10
+!
+interface FastEthernet 1/11
+!
+interface FastEthernet 1/12
+!
+interface FastEthernet 1/13
+!
+interface FastEthernet 1/14
+!
+interface FastEthernet 1/15
+!
+interface FastEthernet 1/16
+!
+interface FastEthernet 1/17
+!
+interface FastEthernet 1/18
+!
+interface FastEthernet 1/19
+!
+interface FastEthernet 1/20
+!
+interface FastEthernet 1/21
+!
+interface FastEthernet 1/22
+!
+interface FastEthernet 1/23
+!
+interface GigabitEthernet 0/0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet 0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.254 255.255.255.0
+!
+interface GigabitEthernet 0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.254 255.255.255.0
+!
+interface GigabitEthernet 0/1
+ duplex auto
+ speed auto
+!
+interface VLAN 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ref parameter 75 140
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+!
+End
+</code></pre>
+
+<h3 id="按照下图进行连接-参照上面实验命令的配置虚接口命令或者实验书实验-33通过三层交换机实现-vlan-间路由直接通过交换机的第三层功能实现交换机的-vlan-间路由或在-switch1-上配置-vlan10-和-vlan20-的虚接口要求所有主机之间可以相互-ping-通">按照下图进行连接, 参照上面[实验命令]的配置虚接口命令或者实验书“实验 3.3、通过三层交换机实现 VLAN 间路由”(直接通过交换机的第三层功能实现交换机的 VLAN 间路由)或在 Switch1 上配置 VLAN10 和 VLAN20 的虚接口,要求所有主机之间可以相互 ping 通</h3>
+
+<h4 id="3apc1-ping-其它-pc-后截屏">3a、PC1 Ping 其它 PC 后截屏</h4>
+
+<p><img src="/assets/image/2019-05-23-7.jpg" alt="7" /></p>
+
+<h4 id="3b显示-switch1-的路由表">3b、显示 Switch1 的路由表</h4>
+
+<p><img src="/assets/image/2019-05-23-8.jpg" alt="8" /></p>
+
+<h4 id="3c把以下内容存入文件-step3txt1显示-switch1-的-vlan2-显示-switch1-的配置3显示-switch1-的路由表4-显示-switch1-的接口简略">3c、把以下内容存入文件 step3.txt:(1)显示 Switch1 的 VLAN；(2) 显示 Switch1 的配置；(3)显示 Switch1 的路由表；(4) 显示 Switch1 的接口(简略)]</h4>
+
+<pre><code class="language-bash">Switch1 Show vlan
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -----------------------------------
+   1 VLAN0001                         STATIC    Gi0/1, Gi0/2, Gi0/3, Gi0/4
+                                                Gi0/5, Gi0/6, Gi0/7, Gi0/8
+                                                Gi0/9, Gi0/11, Gi0/12, Gi0/13
+                                                Gi0/14, Gi0/15, Gi0/16, Gi0/17
+                                                Gi0/18, Gi0/19, Gi0/21, Gi0/22
+                                                Gi0/23, Gi0/24, Gi0/25, Gi0/26
+                                                Gi0/27, Gi0/28
+  10 VLAN0010                         STATIC    Gi0/6, Gi0/10
+  20 VLAN0020                         STATIC    Gi0/6, Gi0/20
+
+Switch1 show running-config
+Building configuration...
+Current configuration : 1538 bytes
+
+!
+version RGOS 10.4(2b12)p2 Release(180357)(Mon Dec  1 17:42:40 CST 2014 -ngcf64)
+hostname 19-S5750-1
+!
+!
+!
+!
+!
+!
+!
+nfpp
+!
+!
+vlan 1
+!
+vlan 10
+!
+vlan 20
+!
+!
+no service password-encryption
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet 0/1
+!
+interface GigabitEthernet 0/2
+!
+interface GigabitEthernet 0/3
+!
+interface GigabitEthernet 0/4
+!
+interface GigabitEthernet 0/5
+!
+interface GigabitEthernet 0/6
+ switchport mode trunk
+!
+interface GigabitEthernet 0/7
+!
+interface GigabitEthernet 0/8
+!
+interface GigabitEthernet 0/9
+!
+interface GigabitEthernet 0/10
+ switchport access vlan 10
+!
+interface GigabitEthernet 0/11
+!
+interface GigabitEthernet 0/12
+!
+interface GigabitEthernet 0/13
+!
+interface GigabitEthernet 0/14
+!
+interface GigabitEthernet 0/15
+!
+interface GigabitEthernet 0/16
+!
+interface GigabitEthernet 0/17
+!
+interface GigabitEthernet 0/18
+!
+interface GigabitEthernet 0/19
+!
+interface GigabitEthernet 0/20
+ switchport access vlan 20
+!
+interface GigabitEthernet 0/21
+!
+interface GigabitEthernet 0/22
+!
+interface GigabitEthernet 0/23
+!
+interface GigabitEthernet 0/24
+!
+interface GigabitEthernet 0/25
+!
+interface GigabitEthernet 0/26
+!
+interface GigabitEthernet 0/27
+!
+interface GigabitEthernet 0/28
+!
+interface VLAN 10
+ no ip proxy-arp
+ ip address 192.168.10.254 255.255.255.0
+!
+interface VLAN 20
+ no ip proxy-arp
+ ip address 192.168.20.254 255.255.255.0
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ login
+ password b402
+!
+!
+End
+
+Switch1 show ip route
+Codes:  C - connected, S - static, R - RIP, B - BGP
+        O - OSPF, IA - OSPF inter area
+        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+        E1 - OSPF external type 1, E2 - OSPF external type 2
+        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+        ia - IS-IS inter area, * - candidate default
+
+Gateway of last resort is no set
+C    192.168.10.0/24 is directly connected, VLAN 10
+C    192.168.10.254/32 is local host.
+C    192.168.20.0/24 is directly connected, VLAN 20
+C    192.168.20.254/32 is local host.
+
+Switch1 show ip interface brief
+Interface                        IP-Address(Pri)      OK?       Status
+VLAN 10                          192.168.10.254/24    YES       UP
+VLAN 20                          192.168.20.254/24    YES       UP
+</code></pre>
+
+<h2 id="实验问题">实验问题</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>优点</th>
+      <th>缺点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>多臂路由</td>
+      <td>可以在一定程度上保证大量数据的流通</td>
+      <td>所需线路多，占用接口多</td>
+    </tr>
+    <tr>
+      <td>单臂路由</td>
+      <td>可以适应各种 VLAN,如在本题中再添加 VLAN 30，不需要对 trunk 重新配置</td>
+      <td>不具有扩展性，若流经路由器与交换机之间链路的流量很大，这条链路就会阻塞</td>
+    </tr>
+    <tr>
+      <td>虚接口</td>
+      <td>利用三层交换机实现了路由器与二层交换机相连的功能</td>
+      <td>由于在数据中的传输类似单臂路由，同样也不具有扩展性</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="实验体会">实验体会</h2>
+
+<p>实验过程遇到挺多问题，在最开始几台 PC 配置默认网关遇到了问题，在之后还有路由器端口上还遇到 VLAN10 重命名的玄学问题，消耗了挺多时间，而且重启 reload 均没有效果，最终向老师求助。</p>
+
+<p>本次实验里面比较了三种 VLAN 间路由的实现方法，是在之前的理论课上完全思考过的问题，理论课上讲到 VLAN 这一部分知识点的时候只记下了 VLAN 划分网络的作用，被划开的网络之间怎样通讯的问题还有多种解决方案，总的来说，还是加深了我对网络间路由的理解。</p>
+
+</div>
+<div class="v">
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+<script
+  src='https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js'
+  defer='defer'
+  onload='
+    new Valine({
+      "el": document.getElementsByClassName("v")[0],
+      "appId": "9hABRddSuEkTgqLrt1VSK5B1-gzGzoHsz",
+      "appKey": "NJ7RwmgrxsF7KDzlqU7YewlL",
+      "placeholder": "在这里评论吧！填写邮箱可以获得 Gravatar 头像和回复通知哦",
+      "requiredFields": ["nick","mail"],
+      "visitor": true,
+      "recordIP": true
+    })'
+></script>
+
+</div>
+  </div>
+  
+  <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+  
+</body>
+
+</html>
